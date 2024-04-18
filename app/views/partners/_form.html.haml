@@ -1,0 +1,304 @@
+= simple_form_for @partner, :html => {:class=>'form-horizontal', :autocomplete=>"off", :id => "partner_form"} do |f|
+  .control-group
+    = f.label ' '
+    #msg-error
+      = error_message_for(@partner, :base, :prepend_text => "")
+  .form-main
+    = f.hidden_field :lock_version
+    = f.hidden_field :approved_id
+    = f.hidden_field :approved_version
+    .control-group
+      = f.label :neft_limit_check, "Neft Limit Check", :class => 'control-label'
+      = f.check_box :neft_limit_check, {},"Y","N"
+      #msg-error
+        = error_message_for(@partner, :neft_limit_check, :prepend_text => "")
+    .control-group
+      = f.label :action_limit_breach, "Action On Limit Breach", :class => 'control-label'
+      = f.select :action_limit_breach, [['Process','P'],['Reject','R']], {:include_blank => 'Select Action'}
+      #msg-error
+        = error_message_for(@funds_transfer_customer, :action_limit_breach, :prepend_text => "")       
+    .control-group
+      = f.label :working_day_limit, "Working Day Limit", :class => 'control-label'
+      = f.text_field :working_day_limit, :maxlength => 20, :class => 'numbers'
+      #msg-error
+        = error_message_for(@partner, :working_day_limit, :prepend_text => "")
+    .control-group
+      = f.label :non_working_day_limit, "Non Working Day Limit", :class => 'control-label'
+      = f.text_field :non_working_day_limit, :maxlength => 20, :class => 'numbers'
+      #msg-error
+        = error_message_for(@partner, :non_working_day_limit, :prepend_text => "")
+    .control-group
+      = f.label :code
+      = f.text_field :code, :maxlength => 10
+      #msg-error
+        = error_message_for(@partner, :code, :prepend_text => "")
+    .control-group
+      = f.label :enabled,"Enabled?", :class => 'control-label'
+      - if f.object.enabled.nil?
+        = f.check_box :enabled, {:checked => "checked"},"Y","N"
+      - else
+        = f.check_box :enabled, {},"Y","N"
+      #msg-error
+        = error_message_for(@partner, :enabled, :prepend_text => "")
+    .control-group
+      = f.label :name
+      = f.text_field :name, :maxlength => 60
+      #msg-error
+        = error_message_for(@partner, :name, :prepend_text => "")
+    .control-group
+      = f.label :tech_email_id, "Tech Email ID", :class => 'control-label'
+      = f.text_field :tech_email_id, :placeholder => "Enter Email IDs separated by ';'"
+      #msg-error
+        = error_message_for(@partner, :tech_email_id, :prepend_text => "")
+    .control-group
+      = f.label :operations_email_id, "Operations Email ID", :class => 'control-label'
+      = f.text_field :ops_email_id, :placeholder => "Enter Email IDs separated by ';'"
+      #msg-error
+        = error_message_for(@partner, :ops_email_id, :prepend_text => "")
+    .control-group
+      = f.label :customer_id, "*Customer ID", :class => 'control-label'
+      = f.text_field :customer_id, :maxlength => 15
+      #msg-error
+        = error_message_for(@partner, :customer_id, :prepend_text => "")
+    .control-group
+      = f.label :account_no
+      = f.text_field :account_no, :maxlength => 20
+      #msg-error
+        = error_message_for(@partner, :account_no, :prepend_text => "")
+    .control-group
+      = f.label :account_ifsc, "*Account IFSC", :class => 'control-label'
+      = f.text_field :account_ifsc, :maxlength => 20
+      #msg-error
+        = error_message_for(@partner, :account_ifsc, :prepend_text => "")
+    .control-group
+      = f.label :low_balance_alert_at, "Low Balance Alert At", :class => 'control-label'
+      = f.text_field :low_balance_alert_at
+      #msg-error
+        = error_message_for(@partner, :low_balance_alert_at, :prepend_text => "")
+    .control-group
+      = f.label :identity_user_id, "*User Identity", :class => 'control-label'
+      = f.text_field :identity_user_id, :maxlength => 20
+      #msg-error
+        = error_message_for(@partner, :identity_user_id, :prepend_text => "")
+    .control-group
+      = f.label :remitter_sms_allowed, "Remitter SMS Allowed?", :class => 'control-label'
+      = f.check_box :remitter_sms_allowed, {},"Y","N"
+      #msg-error
+        = error_message_for(@partner, :remitter_sms_allowed, :prepend_text => "")
+    .control-group
+      = f.label :remitter_email_allowed, "Remitter Email Allowed?", :class => 'control-label'
+      = f.check_box :remitter_email_allowed, {},"Y","N"
+      #msg-error
+        = error_message_for(@partner, :remitter_email_allowed, :prepend_text => "")
+    .control-group
+      = f.label :beneficiary_sms_allowed, "Beneficiary SMS Allowed?", :class => 'control-label'
+      = f.check_box :beneficiary_sms_allowed, {},"Y","N"
+      #msg-error
+        = error_message_for(@partner, :beneficiary_sms_allowed, :prepend_text => "")
+    .control-group
+      = f.label :remitter_email_allowed, "Beneficiary Email Allowed?", :class => 'control-label'
+      = f.check_box :beneficiary_email_allowed, {},"Y","N"
+      #msg-error
+        = error_message_for(@partner, :beneficiary_email_allowed, :prepend_text => "")
+    .control-group
+      = f.label :reply_with_bene_name, "Reply With Beneficiary Name ?", :class => 'control-label'
+      = f.check_box :reply_with_bene_name, {},"Y","N"
+      #msg-error
+        = error_message_for(@partner, :reply_with_bene_name, :prepend_text => "")
+    / .control-group
+    /   = f.label :benificiary_sms_allowed, "Beneficiary SMS Allowed?", :class => 'control-label'
+    /   = f.check_box :beneficiary_sms_allowed, {},"Y","N"
+    /   #msg-error
+    /     = error_message_for(@partner, :beneficiary_sms_allowed, :prepend_text => "")
+    / .control-group
+    /   = f.label :beneficiary_email_allowed, "Beneficiary Email Allowed?", :class => 'control-label'
+    /   = f.check_box :beneficiary_email_allowed, {},"Y","N"
+    /   #msg-error
+    /     = error_message_for(@partner, :beneficiary_email_allowed, :prepend_text => "")
+    .control-group
+      = f.label :notify_on_status_change, "Notify On Status Change?", :class => 'control-label'
+      = f.check_box :notify_on_status_change, {},"Y","N"
+      #msg-error
+        = error_message_for(@partner, :notify_on_status_change, :prepend_text => "")
+    .control-group
+      = f.label :app_code, "App Code", :class => 'control-label'
+      - if f.object.notify_on_status_change == 'Y'
+        = f.text_field :app_code, :maxlength => 20
+      - else
+        = f.text_field :app_code, :readOnly => true, :maxlength => 20
+      #msg-error
+        = error_message_for(@partner, :app_code, :prepend_text => "")
+    .control-group
+      = f.label :neft_allowd, "NEFT Allowed?", :class => 'control-label'
+      - if f.object.allow_neft.nil?
+        = f.check_box :allow_neft, {:checked => "checked"},"Y","N"
+      - else
+        = f.check_box :allow_neft, {},"Y","N"
+      #msg-error
+        = error_message_for(@partner, :allow_neft, :prepend_text => "")
+    .control-group
+      = f.label :rtgs_allowed, "RTGS Allowed?", :class => 'control-label'
+      = f.check_box :allow_rtgs, {},"Y","N"
+      #msg-error
+        = error_message_for(@partner, :allow_rtgs, :prepend_text => "")
+    .control-group
+      = f.label :imps_allowed, "IMPS Allowed?", :class => 'control-label'
+      = f.check_box :allow_imps, {},"Y","N"
+      #msg-error
+        = error_message_for(@partner, :allow_imps, :prepend_text => "")
+    .control-group
+      = f.label :add_req_ref_in_rep, "Add Request Reference In Response?", :class => 'control-label'
+      = f.check_box :add_req_ref_in_rep, {},"Y","N"
+      #msg-error
+        = error_message_for(@partner, :add_req_ref_in_rep, :prepend_text => "")
+    .control-group
+      = f.label :add_transfer_amt_in_rep, "Add Transfer Amount In Response?", :class => 'control-label'
+      = f.check_box :add_transfer_amt_in_rep, {},"Y","N"
+      #msg-error
+        = error_message_for(@partner, :add_transfer_amt_in_rep, :prepend_text => "")
+    .control-group
+      = f.label :n10_notification_enabled, "Credit Confirmation?", :class => 'control-label'
+      = f.check_box :n10_notification_enabled, {},"Y","N"
+      #msg-error
+        = error_message_for(@partner, :n10_notification_enabled, :prepend_text => "")
+    .control-group
+      = f.label :notify_downtime, "Notify downTime?", :class => 'control-label'
+      = f.check_box :notify_downtime, {},"Y","N"
+      #msg-error
+        = error_message_for(@partner, :notify_downtime, :prepend_text => "")        
+  .form-extended
+    .control-group
+      = f.label :service_name, "*Service Name", :class => 'control-label'
+      = f.select :service_name, options_for_select(Partner::SERVICE_NAMES, @partner.service_name)
+      #msg-error
+        = error_message_for(@partner, :service_name, :prepend_text => "")
+    .control-group
+      = f.label :sender_rc, "*Sender RC", :class => 'control-label'
+      = f.text_field :sender_rc, :maxlength => 100  
+      #msg-error
+        = error_message_for(@partner, :sender_rc, :prepend_text => "")
+    .control-group
+      = f.label :sender_mid, "*Sender MID", :class => 'control-label'
+      = f.text_field :sender_mid, :maxlength => 150, :disabled => f.object.service_name != 'ANTFN'
+      #msg-error
+        = error_message_for(@partner, :sender_mid, :prepend_text => "")
+    .control-group
+      = f.label :receiver_mid, "*Receiver MID", :class => 'control-label'
+      = f.text_field :receiver_mid, :maxlength => 50, :disabled => f.object.service_name != 'ANTFN'
+      #msg-error
+        = error_message_for(@partner, :receiver_mid, :prepend_text => "")
+    .control-group
+      = f.label :anchorid, "*Anchor MID", :class => 'control-label'
+      = f.text_field :anchorid, :maxlength => 150, :disabled => f.object.service_name != 'ANTFN'
+      #msg-error
+        = error_message_for(@partner, :anchorid, :prepend_text => "")        
+    .control-group
+      = f.label :liquity_provider_id, "*Liquity Provider ID", :class => 'control-label'
+      = f.text_field :liquity_provider_id, :maxlength => 100, :disabled => f.object.service_name != 'ANTFN'
+      #msg-error
+        = error_message_for(@partner, :liquity_provider_id, :prepend_text => "")
+    .control-group
+      =# f.label :connector_account, "*Ripple Account Name", :class => 'control-label'
+      = #f.text_field :connector_account, :maxlength => 30, :disabled => f.object.service_name != 'RPL'
+      #msg-error
+        =# error_message_for(@partner, :connector_account, :prepend_text => "")
+    .control-group
+      = f.label :auto_reschdl_to_next_wrk_day, "Auto Reschedule To Next Work Day?", :class => 'control-label'
+      = f.check_box :auto_reschdl_to_next_wrk_day, {},"Y","N"
+      #msg-error
+        = error_message_for(@partner, :auto_reschdl_to_next_wrk_day, :prepend_text => "")
+    .control-group
+      = f.label :guideline_id, "*Guideline", :class => 'control-label'
+      = f.select :guideline_id, InwGuideline.all.map { |key, value| [key.code, key.id] }
+      #msg-error
+        = error_message_for(@partner, :guideline_id, :prepend_text => "")
+    .control-group
+      = f.label :allow_upi,"UPI Allowed?", :class => 'control-label'
+      = f.check_box :allow_upi,{},"Y","N"
+      #msg-error
+        = error_message_for(@partner, :allow_upi, :prepend_text => "")
+    .control-group
+      = f.label :validate_vpa,"Validate VPA?", :class => 'control-label'
+      = f.check_box :validate_vpa,{},"Y","N"
+      #msg-error
+        = error_message_for(@partner, :validate_vpa, :prepend_text => "")
+    .control-group
+      = f.label :merchant_id, "Merchant Id", :class => 'control-label'
+      = f.text_field :merchant_id, :maxlength => 30, :disabled => true
+      #msg-error
+        = error_message_for(@partner, :merchant_id, :prepend_text => "")    
+    .control-group
+      = f.label :will_whitelist, "Will Whitelist", :class => 'control-label'
+      = f.check_box :will_whitelist, {},"Y","N"
+      #msg-error
+        = error_message_for(@partner, :will_whitelist, :prepend_text => "")
+    .control-group
+      = f.label :will_send_id, "Will Send ID", :class => 'control-label'
+      = f.check_box :will_send_id, {},"Y","N"
+      #msg-error
+        = error_message_for(@partner, :will_send_id, :prepend_text => "")
+    .control-group
+      = f.label :hold_for_whitelisting, "Hold For Whitelisting", :class => 'control-label'
+      = f.check_box :hold_for_whitelisting, {},"Y","N"
+      #msg-error
+        = error_message_for(@partner, :hold_for_whitelisting, :prepend_text => "")
+    .control-group
+      = f.label :transaction_hold_period, "Transaction Hold Period (in days)", :class => 'control-label'
+      = f.number_field :txn_hold_period_days, min: 1
+      #msg-error
+        = error_message_for(@partner, :txn_hold_period_days, :prepend_text => "")
+    .control-group
+      = f.label :auto_match_rule, "*Auto Match Rule", :class => 'control-label'
+      = f.select :auto_match_rule, Partner.options_for_auto_match_rule
+      #msg-error
+        = error_message_for(@partner, :auto_match_rule, :prepend_text => "")
+    .control-group
+      = f.label :mmid, "MMID", :class => 'control-label'
+      = f.text_field :mmid, :maxlength => 7
+      #msg-error
+        = error_message_for(@partner, :mmid, :prepend_text => "")
+    .control-group
+      = f.label :mobile_no, "Mobile No", :class => 'control-label'
+      = f.text_field :mobile_no, :maxlength => 10
+      #msg-error
+        = error_message_for(@partner, :mobile_no, :prepend_text => "")
+    .control-group
+      = f.label :country, nil, :class => 'control-label'
+      = country_select("partner", "country", except: ["IN"], selected: 'US')
+      #msg-error
+        = error_message_for(@partner, :country, :prepend_text => "")
+    .control-group
+      = f.label :address_line1, nil, :class => 'control-label'
+      = f.text_area :address_line1, :maxlength => 255
+      #msg-error
+        = error_message_for(@partner, :address_line1, :prepend_text => "")
+    .control-group
+      = f.label :address_line2, nil, :class => 'control-label'
+      = f.text_area :address_line2, :maxlength => 255
+      #msg-error
+        = error_message_for(@partner, :address_line2, :prepend_text => "")
+    .control-group
+      = f.label :address_line3, nil, :class => 'control-label'
+      = f.text_area :address_line3, :maxlength => 255
+      #msg-error
+        = error_message_for(@partner, :address_line3, :prepend_text => "")
+  .form-actions
+    - (f.object.new_record? and f.object.code.nil?) ? label_name = "Create" : label_name = "Update"
+    = f.button "submit" ,:class=>"btn btn-primary", :id => 'submit_partner', :value => label_name + ' Partner'
+    = link_to :Cancel,'/partners', :name => 'cancel', :class=>"cancel btn"
+
+:javascript
+  $("#partner_allow_imps").on("click", function () {
+    if(!$('#partner_allow_imps').is(":checked")){
+      $('#partner_mmid').val('');
+      $('#partner_mobile_no').val('');
+      $('#partner_allow_imps').val('');
+      $('#partner_mmid').prop('disabled',true);
+      $('#partner_mobile_no').prop('disabled',true);
+    }
+    else{
+      $('#partner_mobile_no').val('');
+      $('#partner_mmid').prop('disabled',false);
+      $('#partner_mobile_no').prop('disabled',false);
+    }
+  });

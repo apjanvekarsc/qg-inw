@@ -1,0 +1,55 @@
+= form_tag '', :method => 'get', :class => 'form-horizontal', :autocomplete=>"off" do
+  = hidden_field_tag :approval_status, params[:approval_status]
+  .control-group
+    = label_tag "Partner Code", "Partner Code", :class => 'control-label'
+    = text_field_tag :partner_code, params[:partner_code],placeholder: 'Multisearch Search Enabled'
+  .control-group
+    = label_tag "Status Code", "Status Code", :class => 'control-label'
+    = select_tag :status_code, options_for_select([['ONHOLD','ONHOLD'],['SENT_TO_BENEFICIARY','SENT_TO_BENEFICIARY'],['COMPLETED','COMPLETED'],['FAILED','FAILED']],params[:status_code]),:prompt => ''
+  .control-group
+    = label_tag "Notify Status", "Notify Status", :class => 'control-label'
+    = select_tag :notify_status, options_for_select([['PENDING NOTIFICATION','PENDING NOTIFICATION'],['NOTIFIED:REJECTED','NOTIFIED:REJECTED'],['NOTIFIED:OK','NOTIFIED:OK'],['NOTIFICATION FAILED','NOTIFICATION FAILED']],params[:notify_status]),:prompt => ''
+  .control-group
+    = label_tag "Request No", "Request No", :class => 'control-label'
+    = text_field_tag :request_no, params[:request_no],placeholder: 'Multisearch Search Enabled'
+  .control-group
+    = label_tag "Remitter Code", "Remitter Code", :class => 'control-label'
+    = text_field_tag :rmtr_code, params[:rmtr_code],placeholder: 'Multisearch Search Enabled'
+  .control-group
+    = label_tag "Beneficiary Account No", "Beneficiary Account No", :class => 'control-label'
+    = text_field_tag :bene_account_no, params[:bene_account_no],placeholder: 'Multisearch Search Enabled'
+  .control-group
+    = label_tag "Beneficiary Account IFSC", "Beneficiary Account IFSC", :class => 'control-label'
+    = text_field_tag :bene_account_ifsc, params[:bene_account_ifsc],placeholder: 'Multisearch Search Enabled'
+  .control-group
+    = label_tag "Bank Reference No", "Bank Reference No", :class => 'control-label'
+    = text_field_tag :bank_ref, params[:bank_ref],placeholder: 'Multisearch Search Enabled'
+  .control-group
+    = label_tag "Remitter Name", "Remitter Name", :class => 'control-label'
+    = text_field_tag :rmtr_full_name, params[:rmtr_full_name],placeholder: 'Multisearch Search Enabled'
+  .control-group
+    = label_tag "Request Transfer Type", "Request Transfer Type", :class => 'control-label'
+    = text_field_tag :req_transfer_type, params[:req_transfer_type],placeholder: 'Multisearch Search Enabled'
+  .control-group
+    = label_tag "Transfer Type", "Transfer Type", :class => 'control-label'
+    = select_tag :transfer_type, options_for_select([['NEFT','NEFT'],['IMPS','IMPS'],['RTGS','RTGS'],['FT','FT'],['UPI','UPI']],params[:transfer_type]),:prompt => ''
+  .control-group
+    = label_tag "Transfer Amount", "Transfer Amount", :class => 'control-label'
+    = text_field_tag :from_transfer_amount, params[:from_transfer_amount]
+    To
+    = text_field_tag :to_transfer_amount, params[:to_transfer_amount]
+  .control-group
+    = label_tag "Request Date", "Request Date", :class => 'control-label'
+    = date_field_tag(:from_req_timestamp1, params[:from_req_timestamp1])
+    To
+    = date_field_tag(:to_req_timestamp1, params[:to_req_timestamp1])
+  .form-actions
+    = button_tag "Search", :class => 'btn btn-primary'
+    = button_tag "Reset", :type => 'button', :value=>'Reset', :class => 'btn', :id => 'inward_remittance_reset'
+  = hidden_field_tag :advanced_search, :true
+
+
+:javascript
+  $("#inward_remittance_reset").click(function() {
+    $(this).closest('form').find("input,select").val("");
+  });

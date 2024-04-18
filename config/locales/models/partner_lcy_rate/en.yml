@@ -1,0 +1,13 @@
+en:
+  activerecord:
+    models:
+      partner_lcy_rate: "Partner LCY Rate"
+    attributes:
+      partner_lcy_rate: &attributes
+        partner_code:  "Partner Code"
+  activemodel:
+    models:
+      partner_lcy_rate_searcher: 'Partner LCY Rate'
+    attributes:
+      partner_lcy_rate_searcher:
+        <<: *attributes

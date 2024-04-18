@@ -1,0 +1,60 @@
+%br
+= link_to 'New Whitelisted Identity',:controller => "whitelisted_identities",action: "new"
+%br
+%h1 Listing Whitelisted Identities
+%h2.collapsible
+  Advanced Search
+  %span.caret
+.collapsible-content
+  = render :partial => 'advanced_search'
+%br
+= "Total Count: #{@whitelisted_identities.count}"
+= will_paginate @whitelisted_identities, :page_links => true
+%br
+%table.table.table-bordered.table-striped.table-hover
+  .thead
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Partner
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Name
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Id Type
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Id Number
+    %th{:style=>'Text-align:left; background-color: lightblue;'}
+      Id Country
+    %th{:style=>'Text-align:left; background-color: lightblue;'}
+      Id Issued Date
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Id Expiry Date
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Is Revoked ?
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+  .tbody
+    - @whitelisted_identities.each do |record|
+      %tr
+        %td{:style=>'text-align:left;'}
+          = link_to 'Show', record
+        %td{:style=>'text-align:left;'}
+          = record.partner.try(:code).to_s + '-' + record.partner.try(:name).to_s
+        %td{:style=>'text-align:left;'}
+          = record.full_name
+        %td{:style=>'text-align:left;'}
+          = record.id_type
+        %td{:style=>'text-align:left;'}
+          = record.id_number
+        %td{:style=>'text-align:left;'}
+          = record.id_country
+        %td{:style=>'text-align:left;'}
+          = record.id_issue_date
+        %td{:style=>'text-align:left;'}
+          = record.id_expiry_date
+        %td{:style=>'text-align:left;'}
+          = record.is_revoked
+        %td{:style=>'text-align:left;'}
+          - if record.approval_status == 'A'
+            - if record.is_revoked == "N"
+              = link_to "Revoke", revoke_whitelisted_identity_path(record), class: "btn btn-primary", method: :put
+            - else
+              = link_to "Ratify", ratify_whitelisted_identity_path(record), class: "btn btn-primary", method: :put

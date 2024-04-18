@@ -1,0 +1,65 @@
+%br
+= link_to 'New Purpose Code', new_purpose_code_path
+%br
+%br
+%h1 Listing Purpose Codes
+%h2.collapsible
+  Advanced Search
+  %span.caret
+.collapsible-content
+  = render :partial => 'advanced_search'
+%br
+= "Total Count: #{@purpose_codes.count}"
+= will_paginate @purpose_codes, :page_links => true
+%br
+%table.table.table-bordered.table-striped.table-hover
+  .thead
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Code
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Enabled?
+    %th{:style=>'text-align:left; background-color: lightblue;'} 
+      Description
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Maximum Transaction Value
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Monthly Transaction Value - Self
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Monthly Transaction Count - Self
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Monthly Transaction Value - Same Party
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Monthly Transaction Count - Same Party
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Updated by
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Updated At
+  .tbody
+    - @purpose_codes.each do |purpose_code|
+      %tr
+        %td{:style=>'text-align:left;'}
+          = link_to 'Show', purpose_code
+        %td{:style=>'text-align:left;'}
+          = link_to 'Edit', edit_purpose_code_path(purpose_code)
+        %td{:style=>'text-align:left;'}
+          = purpose_code.code
+        %td{:style=>'text-align:left;'}
+          = purpose_code.is_enabled
+        %td{:style=>'text-align:left;'}
+          = purpose_code.description
+        %td{:style=>'text-align:left;'}
+          = '%.2f' % purpose_code.txn_limit
+        %td{:style=>'text-align:left;'}
+          = purpose_code.mtd_txn_limit_self.nil? ? purpose_code.mtd_txn_limit_self : '%.2f' % purpose_code.mtd_txn_limit_self
+        %td{:style=>'text-align:left;'}
+          = purpose_code.mtd_txn_cnt_self
+        %td{:style=>'text-align:left;'}
+          = purpose_code.mtd_txn_limit_sp.nil? ? purpose_code.mtd_txn_limit_sp : '%.2f' % purpose_code.mtd_txn_limit_sp
+        %td{:style=>'text-align:left;'}
+          = purpose_code.mtd_txn_cnt_sp
+        %td{:style=>'text-align:left;'}
+          = purpose_code.updated_user.try(:username)
+        %td{:style=>'text-align:left;'}
+          = purpose_code.updated_at.strftime("%d/%m/%Y %I:%M%p")

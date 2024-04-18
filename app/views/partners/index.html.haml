@@ -1,0 +1,76 @@
+%br
+= link_to 'New Partner', new_partner_path
+%br
+%h1 Listing partners
+%h2.collapsible
+  Advanced Search
+  %span.caret
+.collapsible-content
+  = render :partial => 'advanced_search'
+%br
+= "Total Count: #{@partners.count}"
+= will_paginate @partners, :page_links => true
+%br
+%table.table.table-bordered.table-striped.table-hover
+  .thead
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Enabled
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Code
+    %th{:style=>'text-align:left; background-color: lightblue;'} 
+      Name
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Tech Email ID
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Operations Email ID
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Account No
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      NEFT Allowed?
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      RTGS Allowed?
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      IMPS Allowed?
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      UPI Allowed?
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Validate VPA?  
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Updated by
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Updated At
+  .tbody
+    - @partners.each do |partner|
+      %tr
+        %td{:style=>'text-align:left;'}
+          = link_to 'Show', partner
+        %td{:style=>'text-align:left;'}
+          = link_to 'Edit', edit_partner_path(partner)
+        %td{:style=>'text-align:left;'}
+          = partner.enabled
+        %td{:style=>'text-align:left;'}
+          = partner.code
+        %td{:style=>'text-align:left;'}
+          = partner.name
+        %td{:style=>'text-align:left;'}
+          = partner.tech_email_id.split(';').first rescue nil
+        %td{:style=>'text-align:left;'}
+          = partner.ops_email_id.split(';').first rescue nil
+        %td{:style=>'text-align:left;'}
+          = partner.account_no
+        %td{:style=>'text-align:left;'}
+          = partner.allow_neft
+        %td{:style=>'text-align:left;'}
+          = partner.allow_rtgs
+        %td{:style=>'text-align:left;'}
+          = partner.allow_imps
+        %td{:style=>'text-align:left;'}
+          = partner.allow_upi
+        %td{:style=>'text-align:left;'}
+          = partner.validate_vpa  
+        %td{:style=>'text-align:left;'}
+          = partner.updated_user.try(:username)
+        %td{:style=>'text-align:left;'}
+          = partner.updated_at.strftime("%d/%m/%Y %I:%M%p")

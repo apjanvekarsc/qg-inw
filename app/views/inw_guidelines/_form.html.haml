@@ -1,0 +1,53 @@
+= simple_form_for @inw_guideline, :html => {:class=>'form-horizontal', :autocomplete=>"off", :id => "inw_guideline_form"} do |f|
+  .control-group
+    = f.label ' '
+    #msg-error
+      = error_message_for(@inw_guideline, :base, :prepend_text => "")
+  .form-main
+    = f.hidden_field :lock_version
+    = f.hidden_field :approved_id
+    = f.hidden_field :approved_version
+    .control-group
+      = f.label :code
+      = f.text_field :code, :readonly => true
+      #msg-error
+        = error_message_for(@inw_guideline, :code, :prepend_text => "")
+    .control-group
+      = f.label :is_enabled, "Enabled?", :class => 'control-label'
+      = f.check_box :is_enabled, {},"Y","N"
+      #msg-error
+        = error_message_for(@inw_guideline, :is_enabled, :prepend_text => "")
+    .control-group
+      = f.label :allow_neft, "NEFT Allowed?", :class => 'control-label'
+      = f.check_box :allow_neft, {disabled: true},"Y","N"
+      #msg-error
+        = error_message_for(@inw_guideline, :allow_neft, :prepend_text => "")
+    .control-group
+      = f.label :allow_rtgs, "RTGS Allowed?", :class => 'control-label'
+      = f.check_box :allow_rtgs, {disabled: true},"Y","N"
+      #msg-error
+        = error_message_for(@inw_guideline, :allow_rgts, :prepend_text => "")
+    .control-group
+      = f.label :allow_imps, "IMPS Allowed?", :class => 'control-label'
+      = f.check_box :allow_imps, {disabled: true},"Y","N"
+      #msg-error
+        = error_message_for(@inw_guideline, :allow_imps, :prepend_text => "")
+    .control-group
+      = f.label :ytd_txn_cnt_bene, "YTD Transactions Count (Beneficiary)", :class => 'control-label'
+      = f.number_field :ytd_txn_cnt_bene
+      #msg-error
+        = error_message_for(@inw_guideline, :ytd_txn_cnt_bene, :prepend_text => "")
+    .control-group
+      = f.label :needs_lcy_rate, "Needs LCY Rate", :class => 'control-label'
+      = f.check_box :needs_lcy_rate, {disabled: true},"Y","N"
+      #msg-error
+        = error_message_for(@inw_guideline, :needs_lcy_rate, :prepend_text => "")
+    .control-group
+      = f.label :disallowed_products, "Disallowed Products", :class => 'control-label'
+      = f.text_area :disallowed_products, :style => 'height:150px', :placeholder => "Enter the keywords one below the other"
+      #msg-error
+        = error_message_for(@inw_guideline, :disallowed_products, :prepend_text => "")
+  .form-actions
+    - (f.object.new_record? and f.object.code.nil?) ? label_name = "Create" : label_name = "Update"
+    = f.button "submit" ,:class=>"btn btn-primary", :id => 'submit_inw_guideline', :value => label_name + ' Guideline'
+    = link_to :Cancel,'/inw_guidelines', :name => 'cancel', :class=>"cancel btn"

@@ -1,0 +1,76 @@
+.form-horizontal.show_form
+  .form-main-with-color{:style=>'background-color: #F1F2F8;'}
+    #form-details
+      %h3 Inward Remittance Rules Details 
+      %br
+      %p{:style => 'text-align:left; padding-left:6px; padding-bottom:17px'}
+        - can = can? :edit, @inw_remittance_rule
+        %a.btn{:href => "#{!(can) ? '#' : '/inw_remittance_rules/' + @inw_remittance_rule.id.to_s + '/edit'}", :role => "button", :class => "btn btn-primary #{(can) ? '' : 'disabled'}"} Edit
+        = render 'unapproved_records/approve', :@record => @inw_remittance_rule
+      %table.table.no-border{:style=>"table-layout: fixed; width: 100%"}
+        - if !@inw_remittance_rule.nil?
+          %tr
+            %td.label Version
+            %td.value{:style => 'width:500px'}
+              = link_to "#{audit_count(@inw_remittance_rule)}", :controller => :inw_remittance_rules, :action => :audit_logs, :version_id => audit_count(@inw_remittance_rule), :id => @inw_remittance_rule.id
+          %tr
+            %td.label Form Errors
+            %td.value
+              = ' '
+            %td#msg-error
+              = error_message_for(@inw_remittance_rule, :base, :prepend_text => "")
+          %tr
+            %td.label Disallowed Keywords in Name for Individuals
+            %td.value
+              = @inw_remittance_rule.pattern_individuals
+            %td#msg-error
+              = error_message_for(@inw_remittance_rule, :pattern_individuals, :prepend_text => "")
+          %tr
+            %td.label Required Keywords in Name for Corporates
+            %td.value
+              = @inw_remittance_rule.pattern_corporates
+            %td#msg-error
+              = error_message_for(@inw_remittance_rule, :pattern_corporates, :prepend_text => "")
+          %tr
+            %td.label Disallowed Keywords in Name for Beneficiaries
+            %td.value
+              = @inw_remittance_rule.pattern_beneficiaries
+            %td#msg-error
+              = error_message_for(@inw_remittance_rule, :pattern_beneficiaries, :prepend_text => "")
+          %tr
+            %td.label Disallowed Keywords in Name for Remitters
+            %td.value
+              = @inw_remittance_rule.pattern_remitters
+            %td#msg-error
+              = error_message_for(@inw_remittance_rule, :pattern_remitters, :prepend_text => "")
+          %tr
+            %td.label Known Salutions For Individuals
+            %td.value
+              = @inw_remittance_rule.pattern_salutations
+            %td#msg-error
+              = error_message_for(@inw_remittance_rule, :pattern_salutations, :prepend_text => "")
+          %tr
+            %td.label Created By
+            %td
+              = @inw_remittance_rule.created_user.try(:username)
+            %td#msg-error
+              = error_message_for(@inw_remittance_rule, :created_by, :prepend_text => "")
+          %tr
+            %td.label Updated By
+            %td
+              = @inw_remittance_rule.updated_user.try(:username)
+            %td#msg-error
+              = error_message_for(@inw_remittance_rule, :updated_by, :prepend_text => "")
+          %tr
+            %td.label Created At
+            %td.value
+              = @inw_remittance_rule.created_at.strftime("%d/%m/%Y %I:%M%p")
+            %td#msg-error
+              = error_message_for(@inw_remittance_rule, :created_at, :prepend_text => "")
+          %tr
+            %td.label Updated At
+            %td.value
+              = @inw_remittance_rule.updated_at.strftime("%d/%m/%Y %I:%M%p")
+            %td#msg-error
+              = error_message_for(@inw_remittance_rule, :updated_at, :prepend_text => "")
+      = link_to 'Back to Dashboard', root_path

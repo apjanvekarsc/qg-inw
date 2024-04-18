@@ -1,0 +1,64 @@
+= simple_nested_form_for @whitelisted_identity , :html => {:class=>'form-horizontal',:multipart => true, :autocomplete=>"off"} do |f|
+  .control-group
+    = f.label ' '
+    #msg-error
+      = error_message_for(@whitelisted_identity, :base, :prepend_text => "")
+  .form-main
+    .control-group
+      = f.label :partner_id, '*Partner', :class => 'control-label'
+      = f.select :partner_id, Partner.all.collect {|a| [a.code + '-' + a.name, a.id]}
+    .control-group
+      = f.label :created_for_req_no, '*Req No', :class => 'control-label'
+      = f.text_field :created_for_req_no
+      #msg-error
+        = error_message_for(@whitelisted_identity, :created_for_req_no)
+    .control-group
+      = f.label :id_for, '*Remitter Or Beneficiary', :class => 'control-label'
+      = f.select :id_for, options_for_select([['Remitter','R'],['Beneficiary','B']], @whitelisted_identity.id_for)
+    .control-group
+      = f.label :full_name, '*Full Name', :class => 'control-label'
+      = f.text_field :full_name
+      #msg-error
+        = error_message_for(@whitelisted_identity, :full_name)
+    .control-group
+      = f.label :id_type, '*ID Type', :class => 'control-label'
+      = f.text_field :id_type
+      #msg-error
+        = error_message_for(@whitelisted_identity, :id_type)
+    .control-group
+      = f.label :id_number, '*ID Number', :class => 'control-label'
+      = f.text_field :id_number
+      #msg-error
+        = error_message_for(@whitelisted_identity, :id_number)
+    .control-group
+      = f.label :id_country, 'ID Country', :class => 'control-label'
+      = f.text_field :id_country, :maxlength => 2
+      #msg-error
+        = error_message_for(@whitelisted_identity, :id_country)
+    .control-group
+      = f.label :id_issue_date, 'ID Issue Date', :class => 'control-label'
+      = f.date_field :id_issue_date
+      #msg-error
+        = error_message_for(@whitelisted_identity, :id_issue_date)      
+    .control-group
+      = f.label :id_expiry_date, '*ID Expiry Date', :class => 'control-label'
+      = f.date_field :id_expiry_date
+      #msg-error
+        = error_message_for(@whitelisted_identity, :id_expiry_date)
+    .control-group
+      #attachments
+        %h3 Attachments: (Maximum size 2MB,only jpeg,jpg,png,pdf and docx file upload allowed)
+        .control-group.hidden
+          = f.fields_for :attachments, :input_html => { :rows => 3} do |attachment_form|
+            = attachment_form.label :note
+            = attachment_form.text_area :note, :style => 'width:300px; height:30px', :maxlength => 255
+            = attachment_form.hidden_field :user_id, :value => @user_id
+            = attachment_form.label :file
+            = attachment_form.file_field :file
+            = attachment_form.link_to_remove content_tag(:span, content_tag(:i, '', :class=>"icon icon-remove") + "Remove"), :class => 'remove'
+        = f.link_to_add "Add attachment", :attachments, :class => 'btn add btn-small'
+        %br
+        %br
+    .form-actions
+      = f.button "submit" ,:class=>"btn btn-primary", :id => 'submit_identity', :value => 'Create Identity'
+      = link_to :Cancel,'/whitelisted_identities', :name => 'cancel', :class=>"cancel btn"

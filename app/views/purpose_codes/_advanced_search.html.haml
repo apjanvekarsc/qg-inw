@@ -1,0 +1,22 @@
+= form_tag '', :method => 'get', :class => 'form-horizontal', :autocomplete=>"off" do
+  = hidden_field_tag :approval_status, params[:approval_status]
+  .control-group
+    = label_tag "Code", "Code", :class => 'control-label'
+    = text_field_tag :code, params[:code]
+  .control-group
+    = label_tag "Enabled?", "Enabled?", :class => 'control-label'
+    = select_tag :is_enabled, options_for_select([['Y','Y'],['N','N']],params[:is_enabled]),:prompt => ''
+  .form-actions
+    = button_tag "Search", :class => 'btn btn-primary'
+    = button_tag "Reset", :type => 'button', :value=>'Reset', :class => 'btn', :id => 'purpose_code_reset'
+  = hidden_field_tag :advanced_search, :true
+
+
+:javascript
+  $(document).ready(function(){
+    $('input[type="text"]'). attr("placeholder", "Multisearch Search Enabled");
+  });
+
+  $("#purpose_code_reset").click(function() {
+    $(this).closest('form').find("input").val("");
+  });

@@ -1,0 +1,34 @@
+= form_tag '', :method => 'get', :class => 'form-horizontal', :autocomplete=>"off" do
+  = hidden_field_tag :approval_status, params[:approval_status]
+  .control-group
+    = label_tag "Enabled?", "Enabled?", :class => 'control-label'
+    = select_tag :enabled, options_for_select([['Y','Y'],['N','N']],params[:enabled]),:prompt => ''
+  .control-group
+    = label_tag "Code", "Code", :class => 'control-label'
+    = text_field_tag :code, params[:code]
+  .control-group
+    = label_tag "Account No", "Account No", :class => 'control-label'
+    = text_field_tag :account_no, params[:account_no]
+  .control-group
+    = label_tag "NEFT Allowed?", "NEFT Allowed?", :class => 'control-label'
+    = select_tag :allow_neft, options_for_select([['Y','Y'],['N','N']],params[:allow_neft]),:prompt => ''
+  .control-group
+    = label_tag "RTGS Allowed?", "RTGS Allowed?", :class => 'control-label'
+    = select_tag :rtgs_allow, options_for_select([['Y','Y'],['N','N']],params[:rtgs_allow]),:prompt => ''
+  .control-group
+    = label_tag "IMPS Allowed?", "IMPS Allowed?", :class => 'control-label'
+    = select_tag :imps_allow, options_for_select([['Y','Y'],['N','N']],params[:imps_allow]),:prompt => ''
+  .form-actions
+    = button_tag "Search", :class => 'btn btn-primary'
+    = button_tag "Reset", :type => 'button', :value=>'Reset', :class => 'btn', :id => 'partner_reset'
+  = hidden_field_tag :advanced_search, :true
+
+
+:javascript
+  $(document).ready(function(){
+    $('input[type="text"]'). attr("placeholder", "Multisearch Search Enabled");
+  });
+
+  $("#partner_reset").click(function() {
+    $(this).closest('form').find("input,select").val("");
+  });

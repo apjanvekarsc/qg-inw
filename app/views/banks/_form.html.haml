@@ -1,0 +1,31 @@
+= simple_form_for @bank, :html => {:class=>'form-horizontal', :autocomplete=>"off", :id => "bank_form"} do |f|
+  .control-group
+    = f.label ' '
+    #msg-error
+      = error_message_for(@bank, :base, :prepend_text => "")
+  .form-main{:style => 'width:100%'}
+    = f.hidden_field :lock_version
+    = f.hidden_field :approved_id
+    = f.hidden_field :approved_version
+    .control-group
+      = f.label :ifsc, "*IFSC", :class => 'control-label'
+      = f.text_field :ifsc
+      #msg-error
+        = error_message_for(@bank, :ifsc, :prepend_text => "")
+    .control-group
+      = f.label :name
+      = f.text_field :name
+      #msg-error
+        = error_message_for(@bank, :name, :prepend_text => "")
+    .control-group
+      = f.label :imps_enabled, "IMPS Enabled ?", :class => 'control-label'
+      - if f.object.imps_enabled.nil?
+        = f.check_box :imps_enabled, {:checked => "checked"},1,0
+      - else
+        = f.check_box :imps_enabled, {},1,0
+      #msg-error
+        = error_message_for(@bank, :imps_enabled, :prepend_text => "")    
+  .form-actions
+    = f.button "submit" ,:class=>"btn btn-primary", :id => 'submit_partner'
+    = link_to :Cancel,'/banks', :name => 'cancel', :class=>"cancel btn"
+

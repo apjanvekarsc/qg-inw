@@ -1,0 +1,88 @@
+= simple_form_for @purpose_code, :html => {:class=>'form-horizontal', :autocomplete=>"off", :id => "purpose_code_form"} do |f|
+  .control-group
+    = f.label ' '
+    #msg-error
+      = error_message_for(@purpose_code, :base, :prepend_text => "")
+  .form-main
+    = f.hidden_field :lock_version
+    = f.hidden_field :approved_id
+    = f.hidden_field :approved_version
+    .control-group
+      = f.label :code
+      = f.text_field :code, :maxlength => 4
+      #msg-error
+        = error_message_for(@purpose_code, :code, :prepend_text => "")
+    .control-group
+      = f.label :enabled,"Enabled?", :class => 'control-label'
+      - if f.object.is_enabled.nil?
+        = f.check_box :is_enabled, {:checked => "checked"},"Y","N"
+      - else 
+        = f.check_box :is_enabled, {},"Y","N"
+      #msg-error
+        = error_message_for(@purpose_code, :is_enabled, :prepend_text => "")
+    .control-group
+      = f.label :description
+      = f.text_area :description, :maxlength => 255, :rows => 10
+      #msg-error
+        = error_message_for(@purpose_code, :description, :prepend_text => "")
+    .control-group
+      = f.label :transaction_limit, "*Maximum Transaction Value", :class => 'control-label'
+      = f.text_field :txn_limit
+      #msg-error
+        = error_message_for(@purpose_code, :txn_limit, :prepend_text => "")
+    .control-group
+      = f.label :mtd_txn_cnt_self, "Monthly Transaction Count (Self)", :class => 'control-label'
+      = f.text_field :mtd_txn_cnt_self
+      #msg-error
+        = error_message_for(@purpose_code, :mtd_txn_cnt_self, :prepend_text => "")
+    .control-group
+      = f.label :mtd_txn_limit_self, "Monthly Transaction Value (Self)", :class => 'control-label'
+      = f.text_field :mtd_txn_limit_self
+      #msg-error
+        = error_message_for(@purpose_code, :mtd_txn_limit_self, :prepend_text => "")
+    .control-group
+      = f.label :mtd_txn_cnt_sp, "Monthly Transaction Count (Same Party)", :class => 'control-label'
+      = f.text_field :mtd_txn_cnt_sp
+      #msg-error
+        = error_message_for(@purpose_code, :mtd_txn_cnt_sp, :prepend_text => "")
+    .control-group
+      = f.label :mtd_txn_limit_sp, "Monthly Transaction Value (Same Party)", :class => 'control-label'
+      = f.text_field :mtd_txn_limit_sp
+      #msg-error
+        = error_message_for(@purpose_code, :mtd_txn_limit_sp, :prepend_text => "")
+  .form-extended
+    .control-group
+      = f.label :guideline_id, "Guideline", :class => 'control-label'
+      = f.select :guideline_id, InwGuideline.all.map { |key, value| [key.code, key.id] }
+      #msg-error
+        = error_message_for(@purpose_code, :guideline_id, :prepend_text => "")
+    .control-group
+      = f.label :disallowed_rem_types, "Disallowed Remitter Types", :class => 'control-label'
+      = f.select :disallowed_rem_types, options_for_select(PurposeCode.options_for_bene_and_rem_types, convert_options_to_array(@purpose_code.disallowed_rem_types)), {}, {:multiple => true}
+      #msg-error
+        = error_message_for(@purpose_code, :disallowed_rem_types, :prepend_text => "")
+    .control-group
+      = f.label :disallowed_bene_types, "Disallowed Beneficiary Types", :class => 'control-label'
+      = f.select :disallowed_bene_types, options_for_select(PurposeCode.options_for_bene_and_rem_types, convert_options_to_array(@purpose_code.disallowed_bene_types)),{}, { :multiple => true}
+      #msg-error
+        = error_message_for(@purpose_code, :disallowed_bene_types, :prepend_text => "")
+    .control-group
+      = f.label :rbi_code, "RBI Purpose Code", :class => 'control-label'
+      = f.text_field :rbi_code, :maxlength => 5
+      #msg-error
+        = error_message_for(@purpose_code, :rbi_code, :prepend_text => "")
+    .control-group
+      = f.label :pattern_beneficiaries, "Required Names In Beneficiaries", :class => 'control-label'
+      = f.text_area :pattern_beneficiaries, :style => 'height:150px', :placeholder => "Enter the keywords one below the other"
+      #msg-error
+        = error_message_for(@purpose_code, :pattern_beneficiaries, :prepend_text => "")
+    .control-group
+      = f.label :pattern_allowed_benes, "Allowed Names In Beneficiaries", :class => 'control-label'
+      = f.text_area :pattern_allowed_benes, :style => 'height:150px', :placeholder => "Enter the keywords one below the other"
+      #msg-error
+        = error_message_for(@purpose_code, :pattern_allowed_benes, :prepend_text => "")
+  .form-actions
+    - (f.object.new_record? and f.object.code.nil?) ? label_name = "Create" : label_name = "Update"
+    = f.button "submit" ,:class=>"btn btn-primary", :id => 'submit_purpose_code', :value => label_name + ' Purpose Code'
+    = link_to :Cancel,'/purpose_codes', :name => 'cancel', :class=>"cancel btn"
+

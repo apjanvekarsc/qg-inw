@@ -1,0 +1,14 @@
+en:
+  activerecord:
+    models:
+      purpose_code: "Purpose Code"
+    attributes:
+      purpose_code: &attributes
+        code:  "Code"
+        is_enabled:  "Enabled"
+  activemodel:
+    models:
+      purpose_code_searcher: 'Purpose Code'
+    attributes:
+      purpose_code_searcher:
+        <<: *attributes

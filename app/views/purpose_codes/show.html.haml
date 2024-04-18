@@ -1,0 +1,105 @@
+.form-horizontal.show_form
+  .form-main-with-color{:style=>'background-color: #F1F2F8;'}
+    #form-details
+      %h3 Purpose Code Details 
+      %br
+      %p{:style => 'text-align:left; padding-left:6px; padding-bottom:17px'}
+        - can = can? :edit, @purpose_code
+        %a.btn{:href => "#{!(can) ? '#' : '/purpose_codes/' + @purpose_code.id.to_s + '/edit'}", :role => "button", :class => "btn btn-primary #{(can) ? '' : 'disabled'}"} Edit
+        = render 'unapproved_records/approve', :@record => @purpose_code
+      %table.table.no-border{:style=>"table-layout: fixed; width: 100%"}
+        - if !@purpose_code.nil?
+          %tr
+            %td.label Version
+            %td.value
+              = link_to "#{audit_count(@purpose_code)}", :controller => :purpose_codes, :action => :audit_logs, :version_id => audit_count(@purpose_code), :id => @purpose_code.id
+          %tr
+            %td.label Form Errors
+            %td.value
+              = ' '
+            %td#msg-error
+              = error_message_for(@purpose_code, :base, :prepend_text => "")
+          %tr
+            %td.label Code
+            %td.value
+              = @purpose_code.code
+            %td#msg-error
+              = error_message_for(@purpose_code, :code, :prepend_text => "")
+          %tr
+            %td.label Enabled?
+            %td.value
+              = @purpose_code.is_enabled
+            %td#msg-error
+              = error_message_for(@purpose_code, :is_enabled, :prepend_text => "")
+          %tr
+            %td.label Description
+            %td.value
+              = @purpose_code.description
+            %td#msg-error
+              = error_message_for(@purpose_code, :description, :prepend_text => "")
+          %tr
+            %td.label Maximum Transaction Value
+            %td.value
+              = '%.2f' % @purpose_code.txn_limit
+            %td#msg-error
+              = error_message_for(@purpose_code, :txn_limit, :prepend_text => "")
+          %tr
+            %td.label Monthly Transaction Count (Self)
+            %td.value
+              = @purpose_code.mtd_txn_cnt_self
+            %td#msg-error
+              = error_message_for(@purpose_code, :mtd_txn_cnt_self, :prepend_text => "")
+          %tr
+            %td.label Monthly Transaction Value (Self)
+            %td.value
+              = @purpose_code.mtd_txn_limit_self.nil? ? @purpose_code.mtd_txn_limit_self : '%.2f' % @purpose_code.mtd_txn_limit_self
+            %td#msg-error
+              = error_message_for(@purpose_code, :mtd_txn_limit_self, :prepend_text => "")
+          %tr
+            %td.label Monthly Transaction Count (Same Party)
+            %td.value
+              = @purpose_code.mtd_txn_cnt_sp
+            %td#msg-error
+              = error_message_for(@purpose_code, :mtd_txn_cnt_sp, :prepend_text => "")
+          %tr
+            %td.label Monthly Transaction Value (Same Party)
+            %td.value
+              = @purpose_code.mtd_txn_limit_sp.nil? ? @purpose_code.mtd_txn_limit_sp : '%.2f' % @purpose_code.mtd_txn_limit_sp
+            %td#msg-error
+              = error_message_for(@purpose_code, :mtd_txn_limit_sp, :prepend_text => "")
+          %tr
+            %td.label Disallowed Remitter Types
+            %td.value
+              = disallowed_bene_and_rem_types_on_show_page(@purpose_code.disallowed_rem_types)
+            %td#msg-error
+              = error_message_for(@purpose_code, :disallowed_rem_types, :prepend_text => "")
+          %tr
+            %td.label Disallowed Beneficiary Types
+            %td.value
+              = disallowed_bene_and_rem_types_on_show_page(@purpose_code.disallowed_bene_types)
+            %td#msg-error
+              = error_message_for(@purpose_code, :disallowed_bene_types, :prepend_text => "")
+          %tr
+            %td.label RBI Purpose Code
+            %td
+              = @purpose_code.rbi_code
+            %td#msg-error
+              = error_message_for(@purpose_code, :rbi_code, :prepend_text => "")
+          %tr
+            %td.label Required Names In Beneficiaries
+            %td.value
+              = @purpose_code.pattern_beneficiaries
+            %td#msg-error
+              = error_message_for(@purpose_code, :pattern_beneficiaries, :prepend_text => "")
+          %tr
+            %td.label Allowed Names In Beneficiaries
+            %td.value
+              = @purpose_code.pattern_allowed_benes
+            %td#msg-error
+              = error_message_for(@purpose_code, :pattern_allowed_benes, :prepend_text => "")
+          %tr
+            %td.label Guideline
+            %td.value
+              = @purpose_code.guideline.try(:code)
+            %td#msg-error
+              = error_message_for(@purpose_code, :guideline_id, :prepend_text => "")

@@ -1,0 +1,25 @@
+en:
+  activerecord:
+    models:
+      inward_remittance: "Inward Remittance"
+    attributes:
+      inward_remittance: &attributes
+        partner_id:  "Partner Code"
+        status_code:  "Status Code"
+        notify_status:  "Notify Status"
+        request_no:  "Request No"
+        rmtr_code:  "Remitter Code"
+        bene_account_no:  "Beneficiary Account No"
+        bene_account_ifsc:  "Beneficiary Account IFSC"
+        bank_ref:  "Bank Reference No"
+        rmtr_full_name:  "Remitter Name"
+        req_transfer_type:  "Request Transfer Type"
+        transfer_type:  "Transfer Type"
+        transfer_amount:  "Transfer Amount"
+        req_timestamp:  "Request Date"
+  activemodel:
+    models:
+      inward_remittance_searcher: 'Inward Remittance'
+    attributes:
+      inward_remittance_searcher:
+        <<: *attributes

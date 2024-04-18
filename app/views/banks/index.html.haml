@@ -1,0 +1,49 @@
+%br
+= link_to 'New Bank', new_bank_path
+%br
+%br
+%h1 Listing banks
+%br
+= "Total Count: #{@banks_count}"
+%br
+= will_paginate @banks, :page_links => true
+%br
+%table.table.table-bordered.table-striped.table-hover
+  .thead
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      IFSC
+    %th{:style=>'text-align:left; background-color: lightblue;'} 
+      Name
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      IMPS Enabled?
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Created by
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Updated by
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Created At
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Updated At
+  .tbody
+    - @banks.each do |bank|
+      %tr
+        %td{:style=>'text-align:left;'}
+          = link_to 'Show', bank
+        %td{:style=>'text-align:left;'}
+          = link_to 'Edit', edit_bank_path(bank)
+        %td{:style=>'text-align:left;'}
+          = bank.ifsc
+        %td{:style=>'text-align:left;'}
+          = bank.name
+        %td{:style=>'text-align:left;'}
+          = bank.imps_enabled?
+        %td{:style=>'text-align:left;'}
+          = bank.created_user.try(:username)
+        %td{:style=>'text-align:left;'}
+          = bank.updated_user.try(:username)
+        %td{:style=>'text-align:left;'}
+          = bank.created_at.strftime("%d/%m/%Y %I:%M%p")
+        %td{:style=>'text-align:left;'}
+          = bank.updated_at.strftime("%d/%m/%Y %I:%M%p")

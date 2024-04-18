@@ -1,0 +1,46 @@
+%br
+%h1 Listing INW Guidelines
+%br
+= "Total Count: #{@inw_guidelines_count}"
+%br
+= will_paginate @inw_guidelines, :page_links => true
+%br
+%table.table.table-bordered.table-striped.table-hover
+  .thead
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Code
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Enabled?
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      NEFT Allowed?
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      RTGS Allowed?
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      IMPS Allowed?
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      YTD Transactions Allowed for Bene
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Needs LCY Rate
+  .tbody
+    - @inw_guidelines.each do |inw_guideline|
+      %tr
+        %td{:style=>'text-align:left;'}
+          = link_to 'Show', inw_guideline
+        %td{:style=>'text-align:left;'}
+          = link_to 'Edit', edit_inw_guideline_path(inw_guideline)
+        %td{:style=>'text-align:left;'}
+          = inw_guideline.code
+        %td{:style=>'text-align:left;'}
+          = inw_guideline.is_enabled
+        %td{:style=>'text-align:left;'}
+          = inw_guideline.allow_neft
+        %td{:style=>'text-align:left;'}
+          = inw_guideline.allow_rtgs
+        %td{:style=>'text-align:left;'}
+          = inw_guideline.allow_imps
+        %td{:style=>'text-align:left;'}
+          = inw_guideline.ytd_txn_cnt_bene
+        %td{:style=>'text-align:left;'}
+          = inw_guideline.needs_lcy_rate

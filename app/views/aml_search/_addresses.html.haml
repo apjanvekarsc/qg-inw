@@ -1,0 +1,32 @@
+%h3 Addresses
+= will_paginate @addresses, :param_name => 'addresses_page'
+%br
+%table.table.table-bordered.table-striped.table-hover
+  .thead
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Address Line 1
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Address Line 2
+    %th{:style=>'text-align:left; background-color: lightblue;'} 
+      Address Line 3
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      City
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      State
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Country
+  .tbody
+    - @addresses.each do |address|
+      %tr
+        %td{:style=>'text-align:left;'}
+          = address["addressLine1"]
+        %td{:style=>'text-align:left;'}
+          = address["addressLine2"]
+        %td{:style=>'text-align:left;'}
+          = address["addressLine3"]
+        %td{:style=>'text-align:left;'}
+          = address["city"]
+        %td{:style=>'text-align:left;'}
+          = address["state"]
+        %td{:style=>'text-align:left;'}
+          = address["country"]

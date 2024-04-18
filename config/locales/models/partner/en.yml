@@ -1,0 +1,18 @@
+en:
+  activerecord:
+    models:
+      partner: "Partner"
+    attributes:
+      partner: &attributes
+        enabled:  "Enabled?"
+        code:  "Code"
+        account_no:  "Account No"
+        allow_neft:  "NEFT Allowed?"
+        rtgs_allow:  "RTGS Allowed?"
+        imps_allow:  "IMPS Allowed?"
+  activemodel:
+    models:
+      partner_searcher: 'Partner'
+    attributes:
+      partner_searcher:
+        <<: *attributes

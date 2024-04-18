@@ -1,0 +1,38 @@
+= simple_form_for @inw_remittance_rule, :html => {:class=>'form-horizontal', :autocomplete=>"off", :id => "rule_form"} do |f|
+  .control-group
+    = f.label ' '
+    #msg-error
+      = error_message_for(@inw_remittance_rule, :base, :prepend_text => "")
+  .form-main{:style => 'width:100%'}
+    = f.hidden_field :lock_version
+    = f.hidden_field :approved_id
+    = f.hidden_field :approved_version
+    .control-group
+      = f.label :pattern_individuals, "Disallowed Keywords in Name for Individuals", :class => 'control-label'
+      = f.text_area :pattern_individuals, :style => 'width:450px; height:100px', :placeholder => "Enter the keywords one below the other"
+      #msg-error
+        = error_message_for(@inw_remittance_rule, :pattern_individuals, :prepend_text => "")
+    .control-group
+      = f.label :pattern_corporates, "Required Keywords in Name for Corporates", :class => 'control-label'
+      = f.text_area :pattern_corporates, :style => 'width:450px; height:100px', :placeholder => "Enter the keywords one below the other"
+      #msg-error
+        = error_message_for(@inw_remittance_rule, :pattern_corporates, :prepend_text => "")
+    .control-group
+      = f.label :pattern_beneficiaries, "Disallowed Keywords in Name for Beneficiaries", :class => 'control-label'
+      = f.text_area :pattern_beneficiaries, :style => 'width:450px; height:100px', :placeholder => "Enter the keywords one below the other"
+      #msg-error
+        = error_message_for(@inw_remittance_rule, :pattern_beneficiaries, :prepend_text => "")
+    .control-group
+      = f.label :pattern_remitters, "Disallowed Remitter Name", :class => 'control-label'
+      = f.text_area :pattern_remitters, :style => 'width:450px; height:100px', :placeholder => "Enter the keywords one below the other"
+      #msg-error
+        = error_message_for(@inw_remittance_rule, :pattern_remitters, :prepend_text => "")
+    .control-group
+      = f.label :pattern_salutations, "Known Salutations For Individuals", :class => 'control-label'
+      = f.text_area :pattern_salutations, :style => 'width:450px; height:100px', :placeholder => "Enter the salutations one below the other"
+      #msg-error
+        = error_message_for(@inw_remittance_rule, :pattern_salutations, :prepend_text => "")
+  .form-actions
+    = f.button "submit" ,:class=>"btn btn-primary", :id => 'submit_rule', :value => "Update Rule"
+    = link_to :Cancel,root_path, :name => 'cancel', :class=>"cancel btn"
+

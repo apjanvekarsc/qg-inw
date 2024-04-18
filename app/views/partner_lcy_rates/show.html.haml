@@ -1,0 +1,33 @@
+.form-horizontal.show_form
+  .form-main-with-color{:style=>'background-color: #F1F2F8; margin: 1%;'}
+    #form-details
+      %h3 Partner Lcy Rate Details 
+      %br
+      %p{:style => 'text-align:left; padding-left:6px; padding-bottom:17px'}
+        - can = can? :edit, @partner_lcy_rate
+        %a.btn{:href => "#{!(can) ? '#' : '/partner_lcy_rates/' + @partner_lcy_rate.id.to_s + '/edit'}", :role => "button", :class => "btn btn-primary #{(can) ? '' : 'disabled'}"} Edit
+        = render 'unapproved_records/approve', :@record => @partner_lcy_rate
+      %table.table.no-border{:style=>"table-layout: fixed; width: 100%"}
+        - if !@partner_lcy_rate.nil?
+          %tr
+            %td.label Version
+            %td.value
+              = link_to "#{audit_count(@partner_lcy_rate)}", :controller => :partners, :action => :audit_logs, :version_id => audit_count(@partner_lcy_rate), :id => @partner_lcy_rate.id
+          %tr
+            %td.label Form Errors
+            %td.value
+              = ' '
+            %td#msg-error
+              = error_message_for(@partner_lcy_rate, :base, :prepend_text => "")
+          %tr
+            %td.label Partner Code
+            %td.value
+              = @partner_lcy_rate.partner_code
+            %td#msg-error
+              = error_message_for(@partner_lcy_rate, :partner_code, :prepend_text => "")
+          %tr
+            %td.label Rate
+            %td.value
+              = @partner_lcy_rate.rate
+            %td#msg-error
+              = error_message_for(@partner_lcy_rate, :rate, :prepend_text => "")

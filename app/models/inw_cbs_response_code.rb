@@ -1,0 +1,2 @@
+class InwCbsResponseCode < ApplicationRecord
+end

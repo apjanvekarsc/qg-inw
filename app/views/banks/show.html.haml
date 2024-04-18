@@ -1,0 +1,63 @@
+.form-horizontal.show_form
+  .form-main-with-color{:style=>'background-color: #F1F2F8;'}
+    #form-details
+      %h3 Bank Details 
+      %br
+      %p{:style => 'text-align:left; padding-left:6px; padding-bottom:17px'}
+        - can = can? :edit, @bank
+        %a.btn{:href => "#{!(can) ? '#' : '/banks/' + @bank.id.to_s + '/edit'}", :role => "button", :class => "btn btn-primary #{(can) ? '' : 'disabled'}"} Edit
+        = render 'unapproved_records/approve', :@record => @bank
+      %table.table.no-border{:style=>"table-layout: fixed; width: 100%"}
+        - if !@bank.nil?
+          %tr
+            %td.label Version
+            %td.value
+              = link_to "#{audit_count(@bank)}", :controller => :banks, :action => :audit_logs, :version_id => audit_count(@bank), :id => @bank.id
+          %tr
+            %td.label Form Errors
+            %td.value
+              = ' '
+            %td#msg-error
+              = error_message_for(@bank, :base, :prepend_text => "")
+          %tr
+            %td.label IFSC
+            %td.value
+              = @bank.ifsc
+            %td#msg-error
+              = error_message_for(@bank, :ifsc, :prepend_text => "")
+          %tr
+            %td.label Name
+            %td.value
+              = @bank.name
+            %td#msg-error
+              = error_message_for(@bank, :name, :prepend_text => "")
+          %tr
+            %td.label IMPS Enabled?
+            %td.value
+              = @bank.imps_enabled?
+            %td#msg-error
+              = error_message_for(@bank, :imps_enabled, :prepend_text => "")    
+          %tr
+            %td.label Created By
+            %td
+              = @bank.created_user.try(:username)
+            %td#msg-error
+              = error_message_for(@bank, :created_by, :prepend_text => "")
+          %tr
+            %td.label Updated By
+            %td
+              = @bank.updated_user.try(:username)
+            %td#msg-error
+              = error_message_for(@bank, :updated_by, :prepend_text => "")
+          %tr
+            %td.label Created At
+            %td.value
+              = @bank.created_at.strftime("%d/%m/%Y %I:%M%p")
+            %td#msg-error
+              = error_message_for(@bank, :created_at, :prepend_text => "")
+          %tr
+            %td.label Updated At
+            %td.value
+              = @bank.updated_at.strftime("%d/%m/%Y %I:%M%p")
+            %td#msg-error
+              = error_message_for(@bank, :updated_at, :prepend_text => "")

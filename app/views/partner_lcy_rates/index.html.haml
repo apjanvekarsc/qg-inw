@@ -1,0 +1,56 @@
+:javascript
+  $(document).ajaxSend(function(r, s) {
+      $("#spinner_area").show();
+    });
+    $(document).ajaxStop(function(r, s) {
+      $("#spinner_area").hide();
+      location.reload();
+    });
+
+#spinner_area{:style=>"float-left:100px;margin-left:550px;height:70px;width:250px;margin-top:10px;display:none"}
+  = image_tag "spinner_gif.gif",size: "50x50"
+  please wait rate is updated ....
+
+%br
+%h1 Listing partner lcy rates
+%h2.collapsible
+  Advanced Search
+  %span.caret
+.collapsible-content
+  = render :partial => 'advanced_search'
+%br
+= "Total Count: #{@partner_lcy_rates.count}"
+= will_paginate @partner_lcy_rates, :page_links => true
+%br
+#mtss_button{:style => "float:right;"}
+  .btn-primary{:style=>"height:30px;width:150px;text-align: center;"}
+    = link_to "Update LCY for MTSS",update_lcy_for_mtss_partner_lcy_rates_path,:style=>"color: white;",:remote=>true
+%br
+%br
+%table.table.table-bordered.table-striped.table-hover
+  .thead
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Partner Code
+    %th{:style=>'text-align:left; background-color: lightblue;'} 
+      Rate
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Updated by
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Updated At
+  .tbody
+    - @partner_lcy_rates.each do |partner_lcy_rate|
+      %tr
+        %td{:style=>'text-align:left;'}
+          = link_to 'Show', partner_lcy_rate
+        %td{:style=>'text-align:left;'}
+          = link_to 'Edit', edit_partner_lcy_rate_path(partner_lcy_rate)
+        %td{:style=>'text-align:left;'}
+          = partner_lcy_rate.partner_code
+        %td{:style=>'text-align:left;'}
+          = partner_lcy_rate.rate
+        %td{:style=>'text-align:left;'}
+          = partner_lcy_rate.updated_user.try(:username)
+        %td{:style=>'text-align:left;'}
+          = partner_lcy_rate.updated_at.strftime("%d/%m/%Y %I:%M%p")

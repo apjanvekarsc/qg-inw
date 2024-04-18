@@ -1,0 +1,31 @@
+= form_tag '', :method => 'get', :class => 'form-horizontal', :autocomplete=>"off" do
+  = hidden_field_tag :approval_status, params[:approval_status]
+  .control-group
+    = label_tag "Partner Code", "Partner Code", :class => 'control-label'
+    = text_field_tag :partner_code, params[:partner_code]
+  .control-group
+    = label_tag "Name", "Name", :class => 'control-label'
+    = text_field_tag :name, params[:name]
+  .control-group
+    = label_tag "Remitter Code", "Remitter Code", :class => 'control-label'
+    = text_field_tag :rmtr_code, params[:rmtr_code]
+  .control-group
+    = label_tag "Beneficiary Account No", "Beneficiary Account No", :class => 'control-label'
+    = text_field_tag :bene_account_no, params[:bene_account_no]
+  .control-group
+    = label_tag "Beneficiary Account IFSC", "Beneficiary Account IFSC", :class => 'control-label'
+    = text_field_tag :bene_account_ifsc, params[:bene_account_ifsc]
+  .form-actions
+    = button_tag "Search", :class => 'btn btn-primary'
+    = button_tag "Reset", :type => 'button', :value=>'Reset', :class => 'btn', :id => 'whitelisted_identity_reset'
+  = hidden_field_tag :advanced_search, :true
+
+
+:javascript
+  $(document).ready(function(){
+    $('input[type="text"]'). attr("placeholder", "Multisearch Search Enabled");
+  });
+
+  $("#whitelisted_identity_reset").click(function() {
+    $(this).closest('form').find("input").val("");
+  });

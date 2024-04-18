@@ -1,0 +1,23 @@
+= simple_form_for @partner_lcy_rate, :html => {:class=>'form-horizontal', :autocomplete=>"off", :id => "partner_form"} do |f|
+  .control-group
+    = f.label ' '
+    #msg-error
+      = error_message_for(@partner_lcy_rate, :base, :prepend_text => "")
+  .form-main
+    = f.hidden_field :lock_version
+    = f.hidden_field :approved_id
+    = f.hidden_field :approved_version
+    .control-group
+      = f.label :partner_code
+      = f.text_field :partner_code, :maxlength => 10, :readOnly => true
+      #msg-error
+        = error_message_for(@partner_lcy_rate, :partner_code, :prepend_text => "")
+    .control-group
+      = f.label :rate, "*LCY Rate", :class => 'control-label'
+      = f.number_field :rate, :step => "0.01"
+      #msg-error
+        = error_message_for(@partner_lcy_rate, :rate, :prepend_text => "")
+  .form-actions
+    - (f.object.new_record? and f.object.partner_code.nil?) ? label_name = "Create" : label_name = "Update"
+    = f.button "submit" ,:class=>"btn btn-primary", :id => 'submit_partner', :value => label_name + ' Partner Lcy Rate'
+    = link_to :Cancel,'/partner_lcy_rates', :name => 'cancel', :class=>"cancel btn"

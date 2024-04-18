@@ -1,0 +1,28 @@
+%h3 Identities
+= will_paginate @identities, :param_name => 'identities_page'
+%br
+%table.table.table-bordered.table-striped.table-hover
+  .thead
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Type
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Number
+    %th{:style=>'text-align:left; background-color: lightblue;'} 
+      Country
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Issue Date
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Expiry Date
+  .tbody
+    - @identities.each do |identity|
+      %tr
+        %td{:style=>'text-align:left;'}
+          = identity["idType"]
+        %td{:style=>'text-align:left;'}
+          = identity["idNumber"]
+        %td{:style=>'text-align:left;'}
+          = identity["idCountry"]
+        %td{:style=>'text-align:left;'}
+          = identity["idIssueDate"]
+        %td{:style=>'text-align:left;'}
+          = identity["idExpiryDate"]

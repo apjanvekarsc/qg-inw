@@ -1,0 +1,67 @@
+%br
+%h1 Inward Remittances
+%h2.collapsible
+  Advanced Search
+  %span.caret
+.collapsible-content
+  = render :partial => 'advanced_search'
+%br
+= "Total Count: #{@inward_remittances.count}"
+= will_paginate @inward_remittances, :page_links => true
+%br
+%table.table.table-bordered.table-striped.table-hover
+  .thead
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Status
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Request No
+    %th{:style=>'Text-align:left; background-color: lightblue;'}
+      Partner
+    %th{:style=>'Text-align:left; background-color: lightblue;'}
+      Bank Reference No
+    %th{:style=>'Text-align:left; background-color: lightblue;'}
+      Remitter Name
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Beneficiary Name
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Request Transfer Type
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Transfer Type
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Transfer Amount
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Notify Status 
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Request Date
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Response Date
+  .tbody
+    - @inward_remittances.each do |record|   
+      %tr
+        %td{:style=>'text-align:left;'}
+          = link_to 'Show', record
+        %td{:style=>'text-align:left;'}
+          = record.status_code
+        %td{:style=>'text-align:left;'}
+          = record.req_no
+        %td{:style=>'text-align:left;'}
+          = record.partner_code.to_s + "-" +record.partner.try(:name).to_s
+        %td{:style=>'text-align:left;'}
+          = record.bank_ref
+        %td{:style=>'text-align:left;'}
+          = record.rmtr_full_name
+        %td{:style=>'text-align:left;'}
+          = record.bene_full_name
+        %td{:style=>'text-align:left;'}
+          = record.req_transfer_type
+        %td{:style=>'text-align:left;'}
+          = record.transfer_type
+        %td{:style=>'text-align:left;'}
+          = record.transfer_amount
+        %td{:style=>'text-align:left;'}
+          = record.notify_status
+        %td{:style=>'text-align:left;'}
+          = record.req_timestamp.try(:strftime, "%d/%m/%Y %I:%M%p")
+        %td{:style=>'text-align:left;'}
+          = record.rep_timestamp.try(:strftime, "%d/%m/%Y %I:%M%p")

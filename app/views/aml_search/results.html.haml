@@ -1,0 +1,29 @@
+%br
+= link_to "Back to search", :controller => 'aml_search', :action => 'find_search_results',:search_params => @params, :redirected => true
+%br
+%h1 
+  = "Results"
+%br
+= "Total Count: #{@results_count}"
+%br
+- unless @results.nil?
+  = "Total Count: #{@records.count}"
+  = will_paginate @results, :page_links => true
+  %br
+  %table.table.table-bordered.table-striped.table-hover
+    .thead
+      %th{:style=>'text-align:left; background-color: lightblue;'}
+        Name
+      %th{:style=>'text-align:left; background-color: lightblue;'}
+        Type
+      %th{:style=>'text-align:left; background-color: lightblue;'}
+        Remarks
+    .tbody
+      - @results.each do |result|
+        %tr
+          %td{:style=>'text-align:left; width: 30%'}
+            = link_to result["firstName"].to_s + " " + result["lastName"].to_s, :controller => 'aml_search', :action => 'search_result', :index => @results.index(result), :search_params => @search_params
+          %td{:style=>'text-align:left; width: 30%'}
+            = result["type"]
+          %td{:style=>'text-align:left; width: 30%'}
+            = result["remarks"]

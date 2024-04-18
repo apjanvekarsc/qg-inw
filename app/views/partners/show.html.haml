@@ -1,0 +1,324 @@
+.form-horizontal.show_form
+  .form-main-with-color{:style=>'background-color: #F1F2F8; margin: 1%;'}
+    #form-details
+      %h3 Partner Details
+      %br
+      %p{:style => 'text-align:left; padding-left:6px; padding-bottom:17px'}
+        - can = can? :edit, @partner
+        %a.btn{:href => "#{!(can) ? '#' : '/partners/' + @partner.id.to_s + '/edit'}", :role => "button", :class => "btn btn-primary #{(can) ? '' : 'disabled'}"} Edit
+        = render 'unapproved_records/approve_and_resend', :@record => @partner
+      %table.table.no-border{:style=>"table-layout: fixed; width: 100%"}
+        - if !@partner.nil?
+          %tr
+            %td.label Version
+            %td.value
+              = link_to "#{audit_count(@partner)}", :controller => :partners, :action => :audit_logs, :version_id => audit_count(@partner), :id => @partner.id
+          %tr
+            %td.label Form Errors
+            %td.value
+              = ' '
+            %td#msg-error
+              = error_message_for(@partner, :base, :prepend_text => "")
+          %tr
+            %td.label Code
+            %td.value
+              = @partner.code
+            %td#msg-error
+              = error_message_for(@partner, :code, :prepend_text => "")
+          %tr
+            %td.label Enabled ?
+            %td.value
+              = @partner.enabled
+            %td#msg-error
+              = error_message_for(@partner, :enabled, :prepend_text => "")
+          %tr
+            %td.label Name
+            %td.value
+              = @partner.name
+            %td#msg-error
+              = error_message_for(@partner, :name, :prepend_text => "")
+          %tr
+            %td.label Tech Email ID
+            %td.value
+              = @partner.tech_email_id
+            %td#msg-error
+              = error_message_for(@partner, :tech_email_id, :prepend_text => "")
+          %tr
+            %td.label Operations Email ID
+            %td.value
+              = @partner.ops_email_id
+            %td#msg-error
+              = error_message_for(@partner, :ops_email_id, :prepend_text => "")
+          %tr
+            %td.label Customer ID
+            %td.value
+              = @partner.customer_id
+            %td#msg-error
+              = error_message_for(@partner, :customer_id, :prepend_text => "")
+          %tr
+            %td.label Account No
+            %td.value
+              = @partner.account_no
+            %td#msg-error
+              = error_message_for(@partner, :account_no, :prepend_text => "")
+          %tr
+            %td.label Account IFSC
+            %td.value
+              = @partner.account_ifsc
+            %td#msg-error
+              = error_message_for(@partner, :account_ifsc, :prepend_text => "")
+          %tr
+            %td.label Low Balance Alert At
+            %td.value
+              = @partner.low_balance_alert_at
+            %td#msg-error
+              = error_message_for(@partner, :low_balance_alert_at, :prepend_text => "")
+          %tr
+            %td.label User Identity
+            %td.value
+              = @partner.identity_user_id
+            %td#msg-error
+              = error_message_for(@partner, :identity_user_id, :prepend_text => "")
+          %tr
+            %td.label Remitter SMS Allowed?
+            %td.value
+              = @partner.remitter_sms_allowed
+            %td#msg-error
+              = error_message_for(@partner, :remitter_sms_allowed, :prepend_text => "")
+          %tr
+            %td.label Remitter Email Allowed?
+            %td.value
+              = @partner.remitter_email_allowed
+            %td#msg-error
+              = error_message_for(@partner, :remitter_email_allowed, :prepend_text => "")
+          %tr
+            %td.label Beneficiary SMS Allowed?
+            %td.value
+              = @partner.beneficiary_sms_allowed
+            %td#msg-error
+              = error_message_for(@partner, :beneficiary_sms_allowed, :prepend_text => "")
+          %tr
+            %td.label Beneficiary Email Allowed?
+            %td.value
+              = @partner.beneficiary_email_allowed
+            %td#msg-error
+              = error_message_for(@partner, :beneficiary_email_allowed, :prepend_text => "")
+          %tr
+            %td.label Reply With Beneficicary Name?
+            %td.value
+              = @partner.reply_with_bene_name
+            %td#msg-error
+              = error_message_for(@partner, :reply_with_bene_name, :prepend_text => "")
+
+          / %tr
+          /   %td.label Beneficiary SMS Allowed?
+          /   %td.value
+          /     = @partner.beneficiary_sms_allowed
+          /   %td#msg-error
+          /     = error_message_for(@partner, :beneficiary_sms_allowed, :prepend_text => "")
+          / %tr
+          /   %td.label Beneficiary Email Allowed?
+          /   %td.value
+          /     = @partner.beneficiary_email_allowed
+          /   %td#msg-error
+          /     = error_message_for(@partner, :bbeneficiary_email_allowed, :prepend_text => "")
+          %tr
+            %td.label  Notify On Status Change?
+            %td.value
+              = @partner.notify_on_status_change
+            %td#msg-error
+              = error_message_for(@partner, :notify_on_status_change, :prepend_text => "")
+          %tr
+            %td.label App Code
+            %td.value
+              = @partner.app_code
+            %td#msg-error
+              = error_message_for(@partner, :app_code, :prepend_text => "")
+          %tr
+            %td.label NEFT Allowed?
+            %td.value
+              = @partner.allow_neft
+            %td#msg-error
+              = error_message_for(@partner, :allow_neft, :prepend_text => "")
+          %tr
+            %td.label RTGS Allowed?
+            %td
+              = @partner.allow_rtgs
+            %td#msg-error
+              = error_message_for(@partner, :allow_rtgs, :prepend_text => "")
+          %tr
+            %td.label IMPS Allowed?
+            %td
+              = @partner.allow_imps
+            %td#msg-error
+              = error_message_for(@partner, :allow_imps, :prepend_text => "")
+          %tr
+            %td.label Add Request Reference In Response?
+            %td
+              = @partner.add_req_ref_in_rep
+            %td#msg-error
+              = error_message_for(@partner, :add_req_ref_in_rep, :prepend_text => "")
+          %tr
+            %td.label Add Transfer Amount In Response?
+            %td
+              = @partner.add_transfer_amt_in_rep
+            %td#msg-error
+              = error_message_for(@partner, :add_transfer_amt_in_rep, :prepend_text => "")
+          %tr
+            %td.label MMID
+            %td.value
+              = @partner.mmid
+            %td#msg-error
+              = error_message_for(@partner, :mmid, :prepend_text => "")
+          %tr
+            %td.label Mobile No
+            %td.value
+              = @partner.mobile_no
+            %td#msg-error
+              = error_message_for(@partner, :mobile_no, :prepend_text => "")
+          %tr
+            %td.label Country
+            %td.value
+              = @partner.country_name
+            %td#msg-error
+              = error_message_for(@partner, :country, :prepend_text => "")
+          %tr
+            %td.label Address Line 1
+            %td.value
+              = @partner.address_line1
+            %td#msg-error
+              = error_message_for(@partner, :address_line1, :prepend_text => "")
+          %tr
+            %td.label Address Line 2
+            %td.value
+              = @partner.address_line2
+            %td#msg-error
+              = error_message_for(@partner, :address_line2, :prepend_text => "")
+          %tr
+            %td.label Address Line 3
+            %td.value
+              = @partner.address_line3
+            %td#msg-error
+              = error_message_for(@partner, :address_line3, :prepend_text => "")
+          %tr
+            %td.label Service Name
+            %td.value
+              = @partner.get_service_name(@partner.sender_rc,@partner.service_name)
+            %td#msg-error
+              = error_message_for(@partner, :service_name, :prepend_text => "")
+          %tr
+            %td.label Sender rc
+            %td.value
+              = @partner.sender_rc
+            %td#msg-error
+              = error_message_for(@partner, :sender_rc, :prepend_text => "")
+          %tr
+            %td.label Sender MID
+            %td.value
+              = @partner.sender_mid
+            %td#msg-error
+              = error_message_for(@partner, :sender_mid, :prepend_text => "")
+          %tr
+            %td.label Receiver MID
+            %td.value
+              = @partner.receiver_mid
+            %td#msg-error
+              = error_message_for(@partner, :receiver_mid, :prepend_text => "")            
+          %tr
+            %td.label Anchor MID
+            %td.value
+              = @partner.anchorid
+            %td#msg-error
+              = error_message_for(@partner, :anchorid, :prepend_text => "")   
+          %tr
+            %td.label Liquity Provider ID
+            %td.value
+              = @partner.liquity_provider_id
+            %td#msg-error
+              = error_message_for(@partner, :liquity_provider_id, :prepend_text => "")
+          %tr
+            %td.label Auto Reschedule To Next Work Day?
+            %td
+              = @partner.auto_reschdl_to_next_wrk_day
+            %td#msg-error
+              = error_message_for(@partner, :auto_reschdl_to_next_wrk_day, :prepend_text => "")
+          %tr
+            %td.label Guideline
+            %td.value
+              = @partner.guideline.try(:code)
+            %td#msg-error
+              = error_message_for(@partner, :guideline_id, :prepend_text => "")
+          %tr
+            %td.label UPI Allowed?
+            %td.value
+              = @partner.allow_upi
+            %td#msg-error
+              = error_message_for(@partner, :allow_upi, :prepend_text => "")
+          %tr
+            %td.label Validate VPA?
+            %td.value
+              = @partner.validate_vpa
+            %td#msg-error
+              = error_message_for(@partner, :validate_vpa, :prepend_text => "")
+          %tr
+            %td.label Merchant Id
+            %td.value
+              = @partner.merchant_id
+            %td#msg-error
+              = error_message_for(@partner, :merchant_id, :prepend_text => "")    
+          %tr
+            %td.label Will Whitelist
+            %td.value
+              = @partner.will_whitelist
+            %td#msg-error
+              = error_message_for(@partner, :will_whitelist, :prepend_text => "")
+          %tr
+            %td.label Will Send ID
+            %td.value
+              = @partner.will_send_id
+            %td#msg-error
+              = error_message_for(@partner, :will_send_id, :prepend_text => "")
+          %tr
+            %td.label Hold For Whitelisting
+            %td.value
+              = @partner.hold_for_whitelisting
+            %td#msg-error
+              = error_message_for(@partner, :hold_for_whitelisting, :prepend_text => "")
+          %tr
+            %td.label Transaction Hold Period Days
+            %td.value
+              = @partner.txn_hold_period_days
+            %td#msg-error
+              = error_message_for(@partner, :txn_hold_period_days, :prepend_text => "")
+          %tr
+            %td.label Auto Match Rule
+            %td.value
+              = @partner.auto_match_rule
+            %td#msg-error
+              = error_message_for(@partner, :auto_match_rule, :prepend_text => "")
+          %tr
+            %td.label Notification Sent At
+            %td
+              = @partner.notification_sent_at.try(:strftime, "%d/%m/%Y %I:%M%p")
+            %td#msg-error
+              = error_message_for(@partner, :notification_sent_at, :prepend_text => "")
+
+          %tr
+            %td.label Credit Confirmation?
+            %td
+              = @partner.try(:n10_notification_enabled)
+            %td#msg-error
+              = error_message_for(@partner, :n10_notification_enabled, :prepend_text => "")
+          %tr
+            %td.label Notify DownTime?
+            %td
+              = @partner.try(:notify_downtime)
+            %td#msg-error
+              = error_message_for(@partner, :notify_downtime, :prepend_text => "")  
+          %tr
+            %td.label Action On Limit Breach
+            %td
+              = @partner.try(:action_limit_breach)
+            %td#msg-error
+              = error_message_for(@partner, :action_limit_breach, :prepend_text => "")            
+    

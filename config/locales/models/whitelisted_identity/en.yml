@@ -1,0 +1,17 @@
+en:
+  activerecord:
+    models:
+      whitelisted_identity: "Whitelisted Identity"
+    attributes:
+      whitelisted_identity: &attributes
+        partner_code:  "Partner Code"
+        name:  "Name"
+        rmtr_code:  "Remitter Code"
+        bene_account_no:  "Beneficiary Account No"
+        bene_account_ifsc:  "Beneficiary Account IFSC"
+  activemodel:
+    models:
+      whitelisted_identity_searcher: 'Whitelisted Identity'
+    attributes:
+      whitelisted_identity_searcher:
+        <<: *attributes

@@ -1,0 +1,31 @@
+en:
+  menu:
+   partner: 'Partner'
+   bank: 'Bank'
+   purpose_code: 'Purpose Code'
+   inward_remittance: 'Inward Remittance'
+   inw_remittance_rule: 'Inward Remittance Rule'
+   inw_guideline: 'Inward Remittance Guideline'
+   partner_lcy_rate: 'Partner LCY Rate'
+   whitelisted_identity: 'Whitelisted Identity'
+  enums:
+    req_transfer_type: 
+      NEFT: 'NEFT'
+      IMPS: 'IMPS'
+      RTGS: 'RTGS'
+      FT: 'FT'
+    transfer_type: 
+      NEFT: 'NEFT'
+      IMPS: 'IMPS'
+      RTGS: 'RTGS'
+      FT: 'FT'
+    status_code:
+      FAILED: 'FAILED'
+      SENT_TO_BENEFICIARY: 'SENT_TO_BENEFICIARY'
+      COMPLETED: 'COMPLETED'
+      ONHOLD: 'ONHOLD'
+    notify_status:
+      PENDING NOTIFICATION: 'PENDING NOTIFICATION'
+      NOTIFIED:REJECTED: 'NOTIFIED:REJECTED'
+      NOTIFIED:OK: 'NOTIFIED:OK'
+      NOTIFICATION FAILED: 'NOTIFICATION FAILED'

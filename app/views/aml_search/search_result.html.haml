@@ -1,0 +1,22 @@
+.form-horizontal.show_form
+  .form-main-with-color{:style=>'background-color: #F1F2F8;'}
+    #form-details
+      %h3 Details 
+      %br
+      %table.table.no-border{:style=>"table-layout: fixed; width: 100%"}
+        - if !@result.nil?
+          %tr
+            %td.label{:style=>"width: 6%"} Name
+            %td.value
+              = @result["firstName"].to_s + " " + @result["lastName"].to_s
+          %tr
+            %td.label Type
+            %td.value
+              = @result["type"]
+          %tr
+            %td.label Remarks
+            %td.value
+              = @result["remarks"]
+      = render 'identities'
+      = render 'aliases'
+      = render 'addresses'

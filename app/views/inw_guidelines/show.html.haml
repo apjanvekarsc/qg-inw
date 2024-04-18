@@ -1,0 +1,94 @@
+.form-horizontal.show_form
+  .form-main-with-color{:style=>'background-color: #F1F2F8; margin: 1%;'}
+    #form-details
+      %h3 Inward Guideline Details 
+      %br
+      %p{:style => 'text-align:left; padding-left:6px; padding-bottom:17px'}
+        - can = can? :edit, @inw_guideline
+        %a.btn{:href => "#{!(can) ? '#' : '/inw_guidelines/' + @inw_guideline.id.to_s + '/edit'}", :role => "button", :class => "btn btn-primary #{(can) ? '' : 'disabled'}"} Edit
+        = render 'inw_guidelines/approve', :@record => @inw_guideline
+      %table.table.no-border{:style=>"table-layout: fixed; width: 100%"}
+        - if !@inw_guideline.nil?
+          %tr
+            %td.label Version
+            %td.value
+              = link_to "#{audit_count(@inw_guideline)}", :controller => :inw_guidelines, :action => :audit_logs, :version_id => audit_count(@inw_guideline), :id => @inw_guideline.id
+          %tr
+            %td.label Form Errors
+            %td.value
+              = ' '
+            %td#msg-error
+              = error_message_for(@inw_guideline, :base, :prepend_text => "")
+          %tr
+            %td.label Code
+            %td.value
+              = @inw_guideline.code
+            %td#msg-error
+              = error_message_for(@inw_guideline, :code, :prepend_text => "")
+          %tr
+            %td.label Enabled?
+            %td
+              = @inw_guideline.is_enabled
+            %td#msg-error
+              = error_message_for(@inw_guideline, :is_enabled, :prepend_text => "")
+          %tr
+            %td.label NEFT Allowed?
+            %td.value
+              = @inw_guideline.allow_neft
+            %td#msg-error
+              = error_message_for(@inw_guideline, :allow_neft, :prepend_text => "")
+          %tr
+            %td.label RTGS Allowed?
+            %td
+              = @inw_guideline.allow_rtgs
+            %td#msg-error
+              = error_message_for(@inw_guideline, :allow_rtgs, :prepend_text => "")
+          %tr
+            %td.label IMPS Allowed?
+            %td
+              = @inw_guideline.allow_imps
+            %td#msg-error
+              = error_message_for(@inw_guideline, :allow_imps, :prepend_text => "")
+          %tr
+            %td.label YTD Transactions Allowed for Bene
+            %td
+              = @inw_guideline.ytd_txn_cnt_bene
+            %td#msg-error
+              = error_message_for(@inw_guideline, :ytd_txn_cnt_bene, :prepend_text => "")
+          %tr
+            %td.label Needs LCY Rate
+            %td
+              = @inw_guideline.needs_lcy_rate
+            %td#msg-error
+              = error_message_for(@inw_guideline, :needs_lcy_rate, :prepend_text => "")
+          %tr
+            %td.label Disallowed Products
+            %td
+              = @inw_guideline.disallowed_products
+            %td#msg-error
+              = error_message_for(@inw_guideline, :disallowed_products, :prepend_text => "")
+          %tr
+            %td.label Created By
+            %td.value
+              = @inw_guideline.created_user.try(:username)
+            %td#msg-error
+              = error_message_for(@inw_guideline, :created_by, :prepend_text => "")
+          %tr
+            %td.label Updated By
+            %td.value
+              = @inw_guideline.updated_user.try(:username)
+            %td#msg-error
+              = error_message_for(@inw_guideline, :updated_by, :prepend_text => "")
+          %tr
+            %td.label Created At
+            %td.value
+              = @inw_guideline.created_at.try(:strftime, "%d/%m/%Y %I:%M%p")
+            %td#msg-error
+              = error_message_for(@inw_guideline, :created_at, :prepend_text => "")
+          %tr
+            %td.label Updated At
+            %td.value
+              = @inw_guideline.updated_at.try(:strftime, "%d/%m/%Y %I:%M%p")
+            %td#msg-error
+              = error_message_for(@inw_guideline, :updated_at, :prepend_text => "")
+              

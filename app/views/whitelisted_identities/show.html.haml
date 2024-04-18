@@ -1,0 +1,161 @@
+.form-horizontal.show_form
+  .form-main{:style=>'background-color: #F1F2F8; width: 65%'}
+    #form-details
+      %h3 Whitelisted Identity Details 
+      %br
+      %p{:style => 'text-align:left; padding-left:6px; padding-bottom:17px'}
+        = render 'unapproved_records/approve', :@record => @whitelisted_identity
+      %table.table.no-border{:style=>"table-layout: fixed; width: 100%"}
+        %tr
+          %td.label Version
+          %td.value
+            = link_to "#{audit_count(@whitelisted_identity)}", :controller => :whitelisted_identities, :action => :audit_logs, :version_id => audit_count(@whitelisted_identity), :id => @whitelisted_identity.id
+        %tr
+          %td.label Revoked?
+          %td.value
+            = @whitelisted_identity.is_revoked
+        %tr
+          %td.label Partner
+          %td.value
+            = @whitelisted_identity.partner.try(:code).to_s + '-' + @whitelisted_identity.partner.try(:name).to_s 
+        %tr
+          %td.label Req No
+          %td.value
+            = link_to_unless @whitelisted_identity.created_for_txn_id.nil?, @whitelisted_identity.created_for_req_no, {action: 'show', controller: 'inward_remittances',id: @whitelisted_identity.created_for_txn_id}
+        %tr
+          %td.label Remitter Or Beneficiary
+          %td.value
+            = @whitelisted_identity.id_for
+        %tr
+          %td.label Full Name
+          %td.value
+            = @whitelisted_identity.full_name
+        %tr
+          %td.label ID Type
+          %td.value
+            = @whitelisted_identity.id_type
+        %tr
+          %td.label ID Number
+          %td.value
+            = @whitelisted_identity.id_number
+        %tr
+          %td.label ID Country
+          %td.value
+            = @whitelisted_identity.id_country
+        %tr
+          %td.label ID Issue Date
+          %td.value
+            = @whitelisted_identity.id_issue_date
+        %tr
+          %td.label ID Expiry Date
+          %td.value
+            = @whitelisted_identity.id_expiry_date
+        %tr
+          %td
+            %hr
+          %td
+            %hr
+        %tr
+          %td.label Match
+          %td
+            - if @whitelisted_identity.partner.auto_match_rule == 'N'
+              = "Only Request With No : #{@whitelisted_identity.created_for_req_no}"
+            - else
+              = "Any Request For #{@whitelisted_identity.id_for == 'R' ? 'Remitter' : 'Beneficiary'} By #{@whitelisted_identity.partner.will_send_id == 'Y' ? 'ID Detail' : (@whitelisted_identity.id_for == 'R' ? 'Remitter Code' : 'Beneficiary Account & IFSC')}"
+        %tr
+          %td.label Beneficiary Account Number
+          %td
+            = @whitelisted_identity.bene_account_no
+        %tr
+          %td.label Beneficiary Account IFSC
+          %td
+            = @whitelisted_identity.bene_account_ifsc
+        %tr
+          %td.label Remitter Code
+          %td
+            = @whitelisted_identity.rmtr_code
+        %tr
+          %td
+            %hr
+          %td
+            %hr
+        %tr
+          %td.label Created For Transaction ID
+          %td.value
+            - if @whitelisted_identity.created_for_txn_id.nil?
+              = '-'
+            - else
+              = link_to @whitelisted_identity.created_for_txn_id, inward_remittance_path(@whitelisted_identity.created_for_txn_id)              
+        %tr
+          %td.label First Used With Transaction ID
+          %td.value
+            - if @whitelisted_identity.first_used_with_txn_id.nil?
+              = '-'
+            - else
+              = link_to @whitelisted_identity.first_used_with_txn_id, inward_remittance_path(@whitelisted_identity.first_used_with_txn_id)
+        %tr
+          %td.label Last Used With Transaction ID
+          %td
+            - if @whitelisted_identity.last_used_with_txn_id.nil?
+              = '-'
+            - else
+              = link_to @whitelisted_identity.last_used_with_txn_id, inward_remittance_path(@whitelisted_identity.last_used_with_txn_id)
+        %tr
+          %td.label Times Used
+          %td
+            = link_to @whitelisted_identity.times_used, inward_remittances_path(partner_id: @whitelisted_identity.inward_remittance.try(:partner_code), wl_id: @whitelisted_identity.id, wl_id_for: @whitelisted_identity.id_for)
+        %tr
+          %td.label Created By
+          %td
+            = @whitelisted_identity.created_user.try(:username)
+        %tr
+          %td.label Updated By
+          %td
+            = @whitelisted_identity.updated_user.try(:username)
+        %tr
+          %td.label Lock Version
+          %td.value
+            = @whitelisted_identity.lock_version
+        %tr
+          %td.label Created At
+          %td.value
+            = @whitelisted_identity.created_at.try(:strftime, "%d/%m/%Y %I:%M%p")
+        %tr
+          %td.label Updated At
+          %td.value
+            = @whitelisted_identity.updated_at.try(:strftime, "%d/%m/%Y %I:%M%p")
+    %p{:style => 'padding-left:6px; padding-bottom:6px'}
+            
+            
+  .form-extended{:style=>'background-color: #fafafa; width: 35%; height: 50.5em'}
+    #form-details
+      %h3 Attachments(#{(@whitelisted_identity.attachments.count)})
+      - unless @whitelisted_identity.attachments.nil?
+        #attachment
+          - @whitelisted_identity.attachments.order("created_at desc").limit(3).each do |attachment|
+            .alert-info
+              =attachment.note
+              &nbsp &nbsp
+            = link_to 'Download', download_attachment_path(:attachment_id => attachment.id)
+            %p.muted
+              = "#{(attachment.user.try(:name))} added the attachment on #{attachment.created_at.to_formatted_s(:long)}"
+              %hr
+              %br
+          - if @whitelisted_identity.attachments.count > 3
+            %input#view_attachments{:name => "view", :type => "button", :value => "View All Attachments", :class => 'btn'}
+            &nbsp
+        #full_attachments{:hidden => true}
+          - @whitelisted_identity.attachments.order("created_at desc").each do |attachment|
+            .alert-info
+              =attachment.note
+              &nbsp &nbsp
+            = link_to 'Download', download_attachment_path(:attachment_id => attachment.id)
+            %p.muted
+              = "#{attachment.user.try(:name)} added the attachment on #{attachment.created_at.to_formatted_s(:long)}"
+            %hr
+          %input#hide_attachments{:name => "hide", :type => "button", :value => "Hide Attachments", :class => 'btn'}
+
+          
+
+
+      

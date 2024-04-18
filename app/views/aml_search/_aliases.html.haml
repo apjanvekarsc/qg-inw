@@ -1,0 +1,20 @@
+%h3 Aliases
+= will_paginate @aliases, :param_name => 'aliases_page'
+%br
+%table.table.table-bordered.table-striped.table-hover
+  .thead
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Type
+    %th{:style=>'text-align:left; background-color: lightblue;'}
+      Category
+    %th{:style=>'text-align:left; background-color: lightblue;'} 
+      Name
+  .tbody
+    - @aliases.each do |aliases|
+      %tr
+        %td{:style=>'text-align:left;'}
+          = aliases["type"]
+        %td{:style=>'text-align:left;'}
+          = aliases["category"]
+        %td{:style=>'text-align:left;'}
+          = aliases["firstName"].to_s + aliases["lastName"].to_s

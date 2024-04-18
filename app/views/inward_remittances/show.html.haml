@@ -1,0 +1,262 @@
+.show_ticket
+  .header-form-main{:style=>'background-color: #ecf5fa; width: 50%; height: 200px; display: inline-block;'}
+    %h3
+      Partner:
+      = @inward_remittance.partner_code 
+      = link_to @inward_remittance.partner.name , @inward_remittance.partner  rescue "No Partner for Code #{@inward_remittance.partner_code}" 
+    %h3
+      Request No:
+      = @inward_remittance.req_no
+    %h3
+      Attempt No:
+      = link_to @inward_remittance.attempt_no, inward_remittances_path({request_no: @inward_remittance.req_no, partner_id: @inward_remittance.partner_code})
+    %h3
+      Request At:
+      = @inward_remittance.req_timestamp.try(:strftime, "%d/%m/%Y %I:%M%p")
+    %h3
+      Request Version:
+      = @inward_remittance.req_version
+    %h3
+      Request XML:
+      = link_to "Show Request", "#", :class => 'request-link', :href => "#requestText"
+    %h3
+      Reconciled At:
+      = @inward_remittance.reconciled_at.try(:strftime, "%d/%m/%Y")
+  .header-form-main{:style=>'background-color: #ecf5fa; width: 50%; height: 200px; display: inline-block;'}
+    %h3
+      Status:
+      = @inward_remittance.status_code
+      - if @inward_remittance.status_code == "FAILED"
+        = link_to "Fault Text", "#", :class => 'fault-link', :href => "#faultText", :style => "font-weight:100"
+      - if @inward_remittance.status_code == "ONHOLD"
+        = link_to "Release", release_inward_remittance_path(@inward_remittance), class: "btn btn-primary", method: :put
+      - if !@inward_remittance.inward_remittances_lock.nil?
+        = "Locked"
+
+    %h3 
+      Reply No:
+      = @inward_remittance.rep_no
+    %h3 
+      Bank Reference No:
+      = @inward_remittance.bank_ref
+    %h3
+      Replied At:
+      = @inward_remittance.rep_timestamp.try(:strftime, "%d/%m/%Y %I:%M%p")
+      = "(" + @inward_remittance.reply_time.to_s + " mins)"
+    %h3
+      Reply Version:
+      = @inward_remittance.rep_version
+    %h3
+      Reply XML:
+      = link_to "Show Reply", "#", :class => 'reply-link', :href => "#replyText"
+    %h3
+      Audit Logs:
+      = link_to 'Show', {:controller => 'inward_remittances', :action => 'audit_logs', :id => @inward_remittance.id, :step_name => 'ALL'}
+
+  .header-form-main{:style=>'background-color: #F1F2F8; width: 100%; display: inline-block;'}
+    #ticket-details
+      %h3 Transfer Details
+      %table.table.no-border{:style => 'word-wrap:break-word; table-layout: fixed; width: 50%; float:left;'}  
+        %tr
+          %td.label Purpose Code
+          - if @inward_remittance.purpose.nil?
+            %td= @inward_remittance.purpose_code
+          - else
+            %td= link_to @inward_remittance.purpose_code, @inward_remittance.purpose
+        %tr
+          %td.label Transfer Type
+          %td= @inward_remittance.transfer_type
+        - if @inward_remittance.req_transfer_type != @inward_remittance.transfer_type
+          %tr
+            %td.label Request Transfer Type
+            %td= @inward_remittance.req_transfer_type
+        %tr
+          %td.label Self Transfer?
+          %td= check_box_tag :transfer,@inward_remittance.is_self_transfer, @inward_remittance.self_transfer?, {:disabled => true}
+        %tr
+          %td.label Same Party Transfer?
+          %td= check_box_tag :transfer,@inward_remittance.is_same_party_transfer, @inward_remittance.same_party_transfer?, {:disabled => true}
+        %tr
+          %td.label Balance Available
+          %td= @inward_remittance.bal_available
+        %tr
+          %td.label Transfer Currency
+          %td= @inward_remittance.transfer_ccy
+        %tr
+          %td.label PayerVPA
+          %td= @inward_remittance.try(:payervpa)
+        %tr
+          %td.label PayeeVPA
+          %td= @inward_remittance.try(:payeevpa)
+            
+      %table.table.no-border{:style => 'word-wrap:break-word; table-layout: fixed; width: 50%; float:left;'} 
+        %tr
+          %td.label Transfer Amount
+          %td= @inward_remittance.transfer_amount
+        %tr
+          %td.label Beneficiary Account No
+          %td= @inward_remittance.bene_account_no
+        %tr
+          %td.label Beneficiary Account IFSC
+          %td= @inward_remittance.bene_account_ifsc
+        %tr
+          %td.label CBS Request Reference
+          %td.value
+            = @inward_remittance.cbs_req_ref_no
+        %tr
+          %td.label Processed At
+          %td= @inward_remittance.processed_at.try(:strftime, "%d/%m/%Y %I:%M%p")
+        %tr
+          %td.label Remitter Code
+          %td.value
+            = link_to "#{@inward_remittance.rmtr_code}", inward_remittances_path(rmtr_code: @inward_remittance.rmtr_code, partner_id: @inward_remittance.partner_code)
+      %hr{:style=>'background-color: #F1F2F8; width: 100%'}
+      %h3{:style => 'width: 50%; float:left;'} 
+        = "Remitter: " + "#{@inward_remittance.remitter_type}"
+      %table.table.no-border{:style => 'word-wrap:break-word; table-layout: fixed; width: 50%; float:left;'} 
+        %tr
+          %td.label Name
+          %td= @inward_remittance.rmtr_full_name
+        %tr
+          %td.label Identities In Request
+          %td= link_to "#{@inward_remittance.rmtr_identity_count}", :controller => :inward_remittances, :action => :remitter_identities, :id => @inward_remittance.id
+        %tr
+          %td.label WhiteListed Identity
+          %td= link_to_whitelisted_identity_path(@inward_remittance, 'rmtr')
+        %tr
+          %td.label Address
+          %td= @inward_remittance.rmtr_address1
+        %tr
+          %td.label 
+          %td= @inward_remittance.rmtr_address2
+        %tr
+          %td.label 
+          %td= @inward_remittance.rmtr_address3
+        %tr
+          %td.label Postal code
+          %td= @inward_remittance.rmtr_postal_code
+        %tr
+          %td.label City
+          %td= @inward_remittance.rmtr_city
+        %tr
+          %td.label State
+          %td= @inward_remittance.rmtr_state
+        %tr
+          %td.label Country
+          %td= @inward_remittance.rmtr_country
+        %tr
+          %td.label Email ID
+          %td= @inward_remittance.rmtr_email_id
+        %tr
+          %td.label Mobile No
+          %td= @inward_remittance.rmtr_mobile_no
+      %h3
+        = "Beneficiary: " + "#{@inward_remittance.beneficiary_type}" 
+      %table.table.no-border{:style => 'word-wrap:break-word; table-layout: fixed; width: 50%; float:left;'} 
+        %tr
+          %td.label Name
+          %td= @inward_remittance.bene_full_name
+        %tr
+          %td.label Identities In Request
+          %td= link_to "#{@inward_remittance.bene_identity_count}", :controller => :inward_remittances, :action => :beneficiary_identities, :id => @inward_remittance.id
+        %tr
+          %td.label WhiteListed Identity
+          %td= link_to_whitelisted_identity_path(@inward_remittance, 'bene')
+        %tr
+          %td.label Address
+          %td= @inward_remittance.bene_address1
+        %tr
+          %td.label 
+          %td= @inward_remittance.bene_address2
+        %tr
+          %td.label 
+          %td= @inward_remittance.bene_address3
+        %tr
+          %td.label Postal code
+          %td= @inward_remittance.bene_postal_code
+        %tr
+          %td.label City
+          %td= @inward_remittance.bene_city
+        %tr
+          %td.label State
+          %td= @inward_remittance.bene_state
+        %tr
+          %td.label Country
+          %td= @inward_remittance.bene_country
+        %tr
+          %td.label Email ID
+          %td= @inward_remittance.bene_email_id
+        %tr
+          %td.label Mobile No
+          %td= @inward_remittance.bene_mobile_no
+    %br
+    %table.table.no-border{:style => 'background-color: #ecf5fa; word-wrap:break-word; table-layout: fixed; width: 100%; float:left;'} 
+      %tr
+        %td.label Remitter To Beneficiary Note
+        %td= @inward_remittance.rmtr_to_bene_note
+    %hr{:style=>'background-color: #F1F2F8; width: 100%'}
+    %h3 Notification Status
+    %table.table.no-border{:style => 'word-wrap:break-word; table-layout: fixed; width: 50%; float:left;'}
+      %tr
+        %td.label Notify Attempt
+        %td
+          - if !@inward_remittance.notify_attempt_no.nil?
+            = link_to @inward_remittance.notify_attempt_no, {:controller => 'inward_remittances', :action => 'audit_logs', :id => @inward_remittance.id, :step_name => 'NOTIFY'}
+          - else
+            = "-"
+      %tr
+        %td.label Notify Attempt At
+        %td= @inward_remittance.notify_attempt_at.try(:strftime, "%d/%m/%Y %I:%M%p") rescue ""
+      %tr
+        %td.label Notify Status
+        %td= @inward_remittance.notify_status
+    - if @inward_remittance.notify_status == 'NOTIFIED:OK'
+      %table.table.no-border{:style => 'word-wrap:break-word; table-layout: fixed; width: 50%; float:right;'}
+        %tr
+          %td.label Notified At
+          %td= @inward_remittance.notified_at
+      
+    - elsif @inward_remittance.notify_status == 'NOTIFICATION FAILED'
+      %table.table.no-border{:style => 'word-wrap:break-word; table-layout: fixed; width: 50%; float:right;'}
+        %tr
+          %td.label Notify Result
+          %td
+            = link_to "Show Result", "#", :class => 'notify-result', :href => "#notifyResult", :style => "font-weight:100"
+
+#requestText.modal.hide.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-header
+    %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} ×
+    %h3 Request
+    #error_message{:style => 'color:red'}
+  .modal-body{:style => "max-height:450px;"}
+    .demo-area
+      %button#d_clip_button1.my_clip_button1{"data-clipboard-target" => "request_text"}
+        %b Copy To Clipboard...
+    %pre#request_text{:style => 'word-wrap: break-word'}
+      = @inward_remittance.inw_audit_log.try(:request_bit)
+#replyText.modal.hide.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-header
+    %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} ×
+    %h3 Reply
+    #error_message{:style => 'color:red'}
+  .modal-body{:style => "max-height:450px;"}
+    .demo-area
+      %button#d_clip_button2.my_clip_button2{"data-clipboard-target" => "reply_text"}
+        %b Copy To Clipboard...
+    %pre#reply_text{:style => 'word-wrap: break-word'}
+      = @inward_remittance.inw_audit_log.try(:reply_bit)
+#faultText.modal.hide.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-header
+    %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} ×
+    %h3 Fault Text
+    #error_message{:style => 'color:red'}
+  .modal-body{:style => "max-height:450px;"}
+    .demo-area
+    %pre#fault_text{:style => 'word-wrap: break-word'}
+    %table.table.no-border
+      %tr
+        %td.label Fault Code: 
+        %td= @inward_remittance.fault_code
+      %tr
+        %td.label Fault Reason:
+        %td= @inward_remittance.fault_reason

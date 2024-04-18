@@ -1,0 +1,67 @@
+.form-horizontal.show_form
+  .form-main-with-color{:style=>'background-color: #F1F2F8;'}
+    #form-details
+      %h3 Identities
+      %br
+      %table.table.no-border{:style=>"table-layout: fixed; width: 100%"}
+        - @identities.each do |identity|
+          %tr
+            %th
+              = "Identity Position : " + (@identities.index(identity) + 1).to_s
+          %tr
+            %td.label Transaction
+            %td.valueπ
+              = link_to identity.inward_remittance.id, inward_remittance_path(identity.inward_remittance)
+          %tr
+            %td.label Status
+            %td.value
+              - if identity.whitelisted_identity.nil?
+                - if identity.id_type == 'partnerProvidedID'
+                  = '-'
+                - else
+                  = link_to 'Add', :controller => "whitelisted_identities",action: "new",id_id: identity.id
+              - else
+                = link_to 'WhiteListed', identity.whitelisted_identity
+          %tr
+            %td.label Partner Name
+            %td.value
+              = identity.inward_remittance.partner_name
+          %tr
+            %td.label Request No
+            %td.value
+              = identity.inward_remittance.req_no
+          %tr
+            %td.label Name
+            %td.value
+              = identity.full_name
+          %tr
+            %td.label Id Type
+            %td.value
+              = identity.id_type
+          %tr
+            %td.label Id Number
+            %td.value
+              = identity.id_number
+          %tr
+            %td.label Issued By Country
+            %td.value
+              = identity.id_country
+          %tr
+            %td.label Issued Date
+            %td.value
+              = identity.id_issue_date
+          %tr
+            %td.label Expiry Date
+            %td.value
+              = identity.id_expiry_date
+          %tr
+            %td.label Auto Matched?
+            %td.value
+              = identity.was_auto_matched
+          %tr
+            %td.label Auto Matched At
+            %td.value
+              = identity.auto_matched_at
+          %tr
+            %td
+              %hr{:style=>'background-color: #F1F2F8; width: 200%'}

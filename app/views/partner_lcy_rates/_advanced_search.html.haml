@@ -1,0 +1,19 @@
+= form_tag '', :method => 'get', :class => 'form-horizontal', :autocomplete=>"off" do
+  = hidden_field_tag :approval_status, params[:approval_status]
+  .control-group
+    = label_tag "Partner Code", "Partner Code", :class => 'control-label'
+    = text_field_tag :partner_code, params[:partner_code]
+  .form-actions
+    = button_tag "Search", :class => 'btn btn-primary'
+    = button_tag "Reset", :type => 'button', :value=>'Reset', :class => 'btn', :id => 'partner_lyc_rate_reset'
+  = hidden_field_tag :advanced_search, :true
+
+
+:javascript
+  $(document).ready(function(){
+    $('input[type="text"]'). attr("placeholder", "Multisearch Search Enabled");
+  });
+
+  $("#partner_lyc_rate_reset").click(function() {
+    $(this).closest('form').find("input").val("");
+  });
